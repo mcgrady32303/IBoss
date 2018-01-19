@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Project Management</title>
+
+<!-- CSS件 -->
+<link rel="stylesheet" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/css/customer/home.css" />
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+	<!-- header -->
+	<div th:replace="repository/common/header :: header"></div>
+	<!-- content -->
+	<div class="container-fluid">
+		<div class="row">
+			<!-- left -->
+			<div class="col-sm-3 col-md-2 sidebar">
+				<div th:replace="repository/common/home-left :: header-left"></div>
+			</div>
+
+			<!-- center content -->
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<div class="panel panel-default">
+					<!-- Default panel contents -->
+					<div class="panel-heading">库存展示</div>
+					<div class="panel-body">
+						<p>展示仓库存货数量，以及相关管理存货</p>
+						<button type="button" class="btn btn-primary" data-toggle="modal"
+							data-target=".storage-modal-lg">新增商品</button>
+					</div>
+
+					<!-- Table -->
+					<table id="reposTable" class="table">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>示例图</th>
+								<th>名称</th>
+								<th>库存</th>
+								<td width="200">操作</td>
+							</tr>
+						</thead>
+						<!--<tbody>
+							<tr>
+								<th scope="row">1</th>
+								<td>
+									<div class="col-xs-6 col-md-3">
+										<a href="#" class="thumbnail"> <img src="#" alt="none"
+											width="200" />
+										</a>
+									</div>
+								</td>
+								<td>Otto</td>
+								<td>@mdo</td>
+								<td>
+									<button type="button" class="btn btn-primary">Edit</button>
+									<button type="button" class="btn btn-danger">Del</button>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">2</th>
+								<td>Mark</td>
+								<td>Otto</td>
+								<td>@mdo</td>
+								<td>
+									<button type="button" class="btn btn-primary">Edit</button>
+									<button type="button" class="btn btn-danger">Del</button>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">3</th>
+								<td>Mark</td>
+								<td>Otto</td>
+								<td>@mdo</td>
+								<td>
+									<button type="button" class="btn btn-primary">Edit</button>
+									<button type="button" class="btn btn-danger">Del</button>
+								</td>
+							</tr>
+						</tbody>-->
+					</table>
+				</div>
+
+
+
+
+				<!-- =====Model===== -->
+				<div class="modal fade storage-modal-lg" tabindex="-1" role="dialog"
+					aria-labelledby="myLargeModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myLargeModalLabel">新增材料</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal" role="form" action="/upload"
+									method="post" onsubmit="return ajax_submit()" id="goodInfo"
+									name="goodInfo" enctype="multipart/form-data"
+									autocomplete="off">
+									<!-- 材料名称 -->
+									<div class="form-group">
+										<span class="col-sm-1"></span> <label for="goodName"
+											class="col-sm-2 control-label">材料名称</label>
+										<div class="col-sm-6">
+											<input type="text" class="form-control" id="goodName"
+												placeholder="材料名称" name="goodName" />
+										</div>
+									</div>
+
+									<!-- 材料图片 -->
+									<div class="form-group">
+										<span class="col-sm-1"></span> <label for="sampleImage"
+											class="col-sm-2 control-label">示例图片</label>
+										<div class="file-loading">
+											<input id="sampleImage" name="sampleImage" type="file"
+												required="required" accept="image/*" />
+										</div>
+
+										<!-- 编辑时，展示原有图片 -->
+										<div id="originImage" style="display:none" class="col-xs-6 col-md-3">
+											<a href="#" class="thumbnail"> <img
+												src="#" alt="none" width="200" />
+											</a>
+										</div>
+									</div>
+									<!-- 库存数量 -->
+									<div class="form-group">
+										<span class="col-sm-1"></span> <label for="initNum"
+											class="col-sm-2 control-label">初始数量</label>
+										<div class="col-sm-6">
+											<input type="text" class="form-control" id="initNum"
+												placeholder="初始数量" name="initNum" />
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">取消</button>
+										<button type="submit" class="btn btn-primary" id="saveBtn">保存</button>
+										<span id="tip"> </span>
+									</div>
+
+									<!-- 隐藏属性 -->
+									<input type="hidden" id="actionType" name="actionType"
+										value="add" /> 
+									<input type="hidden" id="itemId" name="itemId"
+										value="add" />
+
+								</form>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ======Template===== -->
+	<script id="item-tmpl" type="text/x-jquery-tmpl"> 	
+    <tr>
+		<th scope="row">${id}</th>
+		<td>
+			<div class="col-xs-6 col-md-3">
+				<a href="#" class="thumbnail"> <img src="/images/${pictureIndex}"
+					alt="none" width="200" />
+				</a>
+			</div>
+		</td>
+		<td>${name}</td>
+		<td>${num}</td>
+		<td>
+			<button type="button" class="btn btn-primary">Edit<input type="hidden" value="${id}"/></button>
+			<button type="button" class="btn btn-danger">Del</button>
+		</td>
+	 </tr>
+	</script>
+
+
+
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/ie10-viewport-bug-workaround.js"></script>
+	<script src="/js/ie-emulation-modes-warning.js"></script>
+	<script src="/js/customer/home.js"></script>
+	<script src="/js/jquery.form.js"></script>
+	<script src="/js/plugins/jquery.tmpl.min.js"></script>
+
+	<!-- JS file -->
+	<script type="text/javascript">
+		$(function() {
+			$('#home-left li').removeClass("active").eq(0).prop('class',
+					'active');
+		});
+	</script>
+</body>
+</html>

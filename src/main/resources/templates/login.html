@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>用户登录</title>
+</head>
+<!-- CSS件 -->
+<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/css/customer/login.css"/>
+<body>
+	<div class="container">
+		<form class="form-signin" action="login" method="post">
+			<h2 class="form-signin-heading">Please sign in</h2>
+			<div class="error-code" th:text="${err_code}"></div>
+			<input type="text" class="form-control" placeholder="Email address" required="required" autofocus="autofocus" name="email" value="email"/> 
+			<input type="password" class="form-control" placeholder="Password" required="required" name="password" value="password"/> 
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		</form>
+	</div>
+
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
