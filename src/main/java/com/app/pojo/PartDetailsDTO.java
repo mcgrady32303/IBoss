@@ -5,6 +5,20 @@ import org.springframework.web.multipart.MultipartFile;
 public class PartDetailsDTO {
 
 	private String goodName;
+	private String actionType;
+	private long itemId;
+	public String getActionType() {
+		return actionType;
+	}
+	public void setActionType(String actionType) {
+		this.actionType = actionType;
+	}
+	public long getItemId() {
+		return itemId;
+	}
+	public void setItemId(long itemId) {
+		this.itemId = itemId;
+	}
 	private MultipartFile sampleImage;
 	private long initNum;
 	public String getGoodName() {
