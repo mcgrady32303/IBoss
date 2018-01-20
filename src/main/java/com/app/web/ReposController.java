@@ -21,77 +21,81 @@ import com.app.entity.ItemEntity;
 import com.app.pojo.PartDetailsDTO;
 import com.app.service.ItemService;
 
-
-
 @Controller
-public class ReposController {	
+public class ReposController {
 	@Autowired
 	private ItemService itemService;
-	
+
 	@ResponseBody
 	@RequestMapping("/repos/list")
-	public String findAll(){
-		
+	public String findAll() {
+
 		System.out.println(JSON.toJSONString(itemService.findAll()));
-		
+
 		return JSON.toJSONString(itemService.findAll());
 	}
-	
-	
-	@ResponseBody
-	@RequestMapping(value="/upload", method = RequestMethod.POST)	
-	public String singleFileUpload(@ModelAttribute("goodInfo") PartDetailsDTO info, BindingResult bindingResult) {
-		
-		System.out.println("name: " + info.getGoodName() + " num: " + info.getInitNum() +" image:" + info.getSampleImage().toString());
 
-		if( bindingResult.hasErrors())    {
-			System.out.println( "There are errors:"+bindingResult.toString() );
-	        return "上传出错！";
-	    }
-		
+	@ResponseBody
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String singleFileUpload(
+			@ModelAttribute("goodInfo") PartDetailsDTO info,
+			BindingResult bindingResult) {
+
+		System.out.println("name: " + info.getGoodName() + " num: "
+				+ info.getInitNum() + " image:"
+				+ info.getSampleImage().toString());
+
+		if (bindingResult.hasErrors()) {
+			System.out.println("There are errors:" + bindingResult.toString());
+			return "上传出错！";
+		}
+
+		String imageIndex="-1";
+
 		if (info.getSampleImage().isEmpty()) {
 			System.out.println("文件为空！");
 			return "文件为空！";
+		} else {
+			imageIndex = saveImage(info.getSampleImage());
 		}
 
-		String imageIndex = saveImage(info.getSampleImage());
-		
 		ItemEntity item = new ItemEntity();
 		item.setName(info.getGoodName());
 		item.setPictureIndex(imageIndex);
 		item.setNum(info.getInitNum());
-		itemService.save(item);	
-		
+		if (info.getActionType().equals("edit")) {
+			item.setId(info.getItemId());
+		}
+		itemService.save(item);
 
 		return "保存成功！";
 	}
-	
-	
-	
-	private String saveImage(MultipartFile image){
-		
-		String suffix = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));  
+
+	private String saveImage(MultipartFile image) {
+
+		String suffix = image.getOriginalFilename().substring(
+				image.getOriginalFilename().lastIndexOf("."));
 		long curTime = System.currentTimeMillis();
 		String imageName = "" + curTime + suffix;
-		
+
 		try {
 			String UPLOAD_PREFIX = "/";
 			File p = new File(ResourceUtils.getURL("classpath:").getPath());
-			if(p.exists())  {
+			if (p.exists()) {
 				UPLOAD_PREFIX = p.getAbsolutePath() + "/static/images/";
 			}
-			
+
 			// Get the file and save it somewhere
 			byte[] bytes = image.getBytes();
 			Path path = Paths.get(UPLOAD_PREFIX + imageName);
-			Files.write(path, bytes);	
-			
+			Files.write(path, bytes);
+
 			return imageName;
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return "-1";
 	}
 
