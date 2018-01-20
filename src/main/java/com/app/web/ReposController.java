@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
@@ -13,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +39,21 @@ public class ReposController {
 		return JSON.toJSONString(itemService.findAll());
 	}
 
+	@RequestMapping(value = "/deleteItem")
+	@ResponseBody
+	public String deleteItem(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		System.out.println("to delete id : " + request.getParameter("itemId"));
+
+		long itemId = Long.valueOf(request.getParameter("itemId"));
+		ItemEntity item = new ItemEntity();
+		item.setId(itemId);
+		itemService.delete(item);
+		
+		return "";
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public String singleFileUpload(
@@ -50,7 +69,7 @@ public class ReposController {
 			return "上传出错！";
 		}
 
-		String imageIndex="-1";
+		String imageIndex = "-1";
 
 		if (info.getSampleImage().isEmpty()) {
 			System.out.println("文件为空！");

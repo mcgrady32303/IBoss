@@ -1,6 +1,10 @@
 function initRepos() {
 	$.getJSON("/repos/list", function(json) {
 		$("#item-tmpl").tmpl(json).appendTo("#reposTable");
+		var size = $("#reposTable tr").size() - 1;
+		for(var i = 0; i < size; i++ ) {
+			 $("#reposTable tr:eq(i+1) th").text(i+1);
+		}
 	});
 }
 
@@ -44,15 +48,31 @@ $(function() {
 	initRepos();
 
 	$("#reposTable").on("click", ".btn-danger", function() {
-		$(this).parents("tr").remove();
+		var toDel = $(this).parents("tr");
+		var itemId = $(this).parents("td").find("input").val();
+		$.ajax({
+			url : "/deleteItem",
+			data : {"itemId": itemId},
+			type : "post",
+			processData : false,			
+			dataType:"json",
+			contentType: "application/x-www-form-urlencoded",
+			success : function(data) {
+				toDel.remove();
+			},
+			error : function() {
+				alert('删除出错');
+			}
+		});
 	});
+		
 
 	$("#reposTable").on("click", ".btn-primary",function() {
 		$("#actionType").val("edit");
 		$("#originImage img").attr("src",$(this).parents("tr").find("img").attr("src"));
 		$("#originImage").show();
 		$("#itemId").val($(this).find("input").val());		
-		$("#sampleImage").attr("required", "false");
+		$("#sampleImage").attr("required", false);
 		alert($(this).toString() + $(this).parents("td").prev().prev().text());
 		$("#goodName").val($(this).parents("td").prev().prev().text());
 		$("#initNum").val($(this).parents("td").prev().text());
