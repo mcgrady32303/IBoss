@@ -49,10 +49,13 @@ $(function() {
 
 	$("#reposTable").on("click", ".btn-primary",function() {
 		$("#actionType").val("edit");
-		$("#originImage img").css("src",);
+		$("#originImage img").attr("src",$(this).parents("tr").find("img").attr("src"));
 		$("#originImage").show();
 		$("#itemId").val($(this).find("input").val());		
-		$("#sampleImage").css("required", "false");
+		$("#sampleImage").attr("required", "false");
+		alert($(this).toString() + $(this).parents("td").prev().prev().text());
+		$("#goodName").val($(this).parents("td").prev().prev().text());
+		$("#initNum").val($(this).parents("td").prev().text());
 		$('.storage-modal-lg').modal("show");
 		// 提示不修改图片可以不再上传
 	});
