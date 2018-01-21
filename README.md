@@ -2,7 +2,7 @@
 
 TODO:
 1.中文乱码；
-2.item edit退出后，清除属性的值，防止新增误用；
-3.input required修改？
+2.增加日志 log4j的配置参考（http://blog.csdn.net/moshenglv/article/details/52311181）
+
 
   
