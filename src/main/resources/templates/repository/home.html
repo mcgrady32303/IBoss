@@ -35,8 +35,7 @@
 					<div class="panel-heading">库存展示</div>
 					<div class="panel-body">
 						<p>展示仓库存货数量，以及相关管理存货</p>
-						<button type="button" class="btn btn-primary" data-toggle="modal"
-							data-target=".storage-modal-lg">新增商品</button>
+						<button type="button" id="btnAddItem" class="btn btn-primary" data-toggle="modal">新增商品</button>
 					</div>
 
 					<!-- Table -->
@@ -125,7 +124,7 @@
 										<span class="col-sm-1"></span> <label for="sampleImage"
 											class="col-sm-2 control-label">示例图片</label>
 										<div class="file-loading">
-											<input id="sampleImage" name="sampleImage" type="file"
+											<input id="sampleImage" name="sampleImage" data-toggle="tooltip" title="修改时若不更改图片，则可以不选图片" type="file"
 												required="required" accept="image/*" />
 										</div>
 
@@ -156,7 +155,7 @@
 									<input type="hidden" id="actionType" name="actionType"
 										value="add" /> 
 									<input type="hidden" id="itemId" name="itemId"
-										value="add" />
+										value="1" />
 
 								</form>
 							</div>

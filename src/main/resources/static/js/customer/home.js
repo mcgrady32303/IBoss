@@ -3,7 +3,8 @@ function initRepos() {
 		$("#item-tmpl").tmpl(json).appendTo("#reposTable");
 		var size = $("#reposTable tr").size() - 1;
 		for(var i = 0; i < size; i++ ) {
-			 $("#reposTable tr:eq(i+1) th").text(i+1);
+//			 $("#reposTable tr:eq(i+1) th").text(i+1);
+			 $("#reposTable tr").eq(i+1).find("th").text(i+1);
 		}
 	});
 }
@@ -46,16 +47,17 @@ function ajax_submit() {
 
 $(function() {
 	initRepos();
+	
+	$("[data-toggle='tooltip']").tooltip();
 
 	$("#reposTable").on("click", ".btn-danger", function() {
 		var toDel = $(this).parents("tr");
 		var itemId = $(this).parents("td").find("input").val();
 		$.ajax({
 			url : "/deleteItem",
-			data : {"itemId": itemId},
+			data : "itemId="+itemId,
 			type : "post",
 			processData : false,			
-			dataType:"json",
 			contentType: "application/x-www-form-urlencoded",
 			success : function(data) {
 				toDel.remove();
@@ -66,7 +68,18 @@ $(function() {
 		});
 	});
 		
+	$("#btnAddItem").on("click", function(){
+		$("#originImage").hide();
+		$("#goodName").val("");
+		$("#initNum").val("");
+		$("#goodName").attr("placeHolder","商品名称");
+		$("#initNum").attr("placeHolder","初始数量");
+		$("#sampleImage").attr("required", true);
+		$('.storage-modal-lg').modal("show");
+		
+	});
 
+	//点击编辑时的操作
 	$("#reposTable").on("click", ".btn-primary",function() {
 		$("#actionType").val("edit");
 		$("#originImage img").attr("src",$(this).parents("tr").find("img").attr("src"));
