@@ -55,7 +55,7 @@ $(function() {
 		var itemId = $(this).parents("td").find("input").val();
 		$.ajax({
 			url : "/deleteItem",
-			data : "itemId="+itemId,
+			data : {"itemId":itemId},
 			type : "post",
 			processData : false,			
 			contentType: "application/x-www-form-urlencoded",
