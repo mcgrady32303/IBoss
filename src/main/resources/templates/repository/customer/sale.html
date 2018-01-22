@@ -131,7 +131,7 @@
 	</div>
 
 
-	<!-- =====Modal=====   使用ajax jason解决传输  -->
+	<!-- ===== order Modal=====  -->
 	<div class="modal fade sale-modal-lg" tabindex="-1" role="dialog"
 		aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
@@ -151,7 +151,7 @@
 							<span class="col-sm-1"></span> <label for="orderDate"
 								class="col-sm-2 control-label">订单日期</label>
 							<div class="file-loading">
-								<input id="orderDate" name="orderDate" type="text" />
+								<input id="orderDate" name="orderDate" type="date" />
 							</div>
 						</div>
 
@@ -242,6 +242,8 @@
 					</div>
 
 					<button type="button" class="btn btn-primary" id="addItem">增加一行材料</button>
+					
+					<input type="hidden" id="customerId" value="none"/>
 
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -254,6 +256,39 @@
 			</div>
 
 
+		</div>
+	</div>
+	<!-- end of Modal  -->
+
+
+	<!-- ===== select customer Modal=====  -->
+	<div class="modal fade costumer-modal-lg" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myLargeModalLabel">选择客户</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-horizontal" role="form" action="#" method="post"
+						id="order-form" style="height: 300px; overflow: auto;">
+
+						<!-- Table -->
+						<table id="custmerList" class="table">
+							<thead>
+								<tr>
+									<th>操作</th>
+									<th>客戶名字</th>
+									<th>备注</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- end of Modal  -->
@@ -280,6 +315,14 @@
 			<td>200</td>
 			<td><button type="button" class="btn btn-danger">删除</button></td>
 		</tr>
+	</script>
+
+	<script id="oneCustomer" type="text/x-jquery-tmpl">
+	<tr>									
+		<td><button type="button" class="btn btn-link">选择 <input type="hidden" value="${id}"/></button></td>
+		<td>${name}</td>
+		<td>${msg}</td>	       	
+	</tr>	
 	</script>
 
 </body>
