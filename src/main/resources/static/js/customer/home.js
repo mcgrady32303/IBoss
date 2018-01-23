@@ -53,9 +53,12 @@ $(function() {
 	$("#reposTable").on("click", ".btn-danger", function() {
 		var toDel = $(this).parents("tr");
 		var itemId = $(this).parents("td").find("input").val();
+		
+		alert("待删除id:" + itemId);
+		
 		$.ajax({
 			url : "/deleteItem",
-			data : {"itemId":itemId},
+			data : "itemId="+itemId,
 			type : "post",
 			processData : false,			
 			contentType: "application/x-www-form-urlencoded",

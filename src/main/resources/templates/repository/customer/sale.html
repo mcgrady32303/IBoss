@@ -178,7 +178,8 @@
 							<span class="col-sm-1"></span> <label for="isPayed"
 								class="col-sm-2 control-label">已付款</label>
 							<div class="file-loading">
-								<input id="isPayed" name="isPayed" type="text" />
+								<input type="radio" name="isPayed" value="是" checked="checked" />
+								<input type="radio" name="isPayed" value="否" />
 							</div>
 						</div>
 
@@ -186,72 +187,24 @@
 						<!-- Table -->
 						<table id="itemList" class="table">
 							<thead>
-								<tr>
-									<th>序号</th>
+								<tr>									
 									<th>材料名称</th>
 									<th>数量</th>
 									<th>单价</th>
 									<th>操作</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>
-										<div class="btn-group">
-											<button type="button" class="btn btn-default dropdown-toggle"
-												data-toggle="dropdown" aria-haspopup="true"
-												aria-expanded="false">
-												选择材料名称 <span class="caret"></span>
-											</button>
-											<ul class="dropdown-menu">
-												<li><a href="#">Action</a></li>
-												<li><a href="#">Another action</a></li>
-												<li><a href="#">Something else here</a></li>
-												<li><a href="#">Separated link</a></li>
-											</ul>
-										</div>
-									</td>
-									<td>10</td>
-									<td>200</td>
-									<td><button type="button" class="btn btn-danger">删除</button></td>
-								</tr>
-								<tr>
-									<th scope="row">1</th>
-									<td>
-										<div class="btn-group">
-											<button type="button" class="btn btn-default dropdown-toggle"
-												data-toggle="dropdown" aria-haspopup="true"
-												aria-expanded="false">
-												选择材料名称 <span class="caret"></span>
-											</button>
-											<ul class="dropdown-menu">
-												<li><a href="#">Action</a></li>
-												<li><a href="#">Another action</a></li>
-												<li><a href="#">Something else here</a></li>
-												<li><a href="#">Separated link</a></li>
-											</ul>
-										</div>
-									</td>
-									<td>10</td>
-									<td>200</td>
-									<td><button type="button" class="btn btn-danger">删除</button></td>
-								</tr>
-							</tbody>
 						</table>
 					</div>
 
 					<button type="button" class="btn btn-primary" id="addItem">增加一行材料</button>
-					
-					<input type="hidden" id="customerId" value="none"/>
+
+					<input type="hidden" id="customerId" value="none" />
 
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" id="saveBtn">Save
-							changes</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary" id="saveBtn">保存</button>
 					</div>
-
-
 				</div>
 			</div>
 
@@ -295,35 +248,39 @@
 
 
 	<script id="oneItem" type="text/x-jquery-tmpl">
-		<tr><th scope="row">1</th>
+		<tr>
+            <input type="hidden" value="-1"/>
 			<td>
 				<div class="btn-group">
 					<button type="button" class="btn btn-default dropdown-toggle"
 						data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false">
-						选择材料名称 <span class="caret"></span>
+						选择材料 <span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu">
-					<li><a href="#">Action</a></li>
-				    <li><a href="#">Another action</a></li>
-					<li><a href="#">Something else here</a></li>
-					<li><a href="#">Separated link</a></li>
+					<ul class="dropdown-menu">					
+						<li><a href="#">${name}</a><input type="hidden" value="${id}"/></li>					
+					<li><a href="#">Action</a></li>				    
 					</ul>
 				</div>
 			</td>
-			<td>10</td>
-			<td>200</td>
+			<td><input type="text" value="数量"/></td>
+			<td><input type="text" value="单价"/></td>
 			<td><button type="button" class="btn btn-danger">删除</button></td>
 		</tr>
 	</script>
 
+    <!--  
+	<script id="oneItemChoice" type="text/x-jquery-tmpl">
+         <li><a href="#">${name}</a><input type="hidden" value="${id}"/></li>
+    </script>
+    -->
 	<script id="oneCustomer" type="text/x-jquery-tmpl">
-	<tr>									
-		<td><button type="button" class="btn btn-link">选择 <input type="hidden" value="${id}"/></button></td>
-		<td>${name}</td>
-		<td>${msg}</td>	       	
-	</tr>	
-	</script>
+	    <tr>									
+			<td><button type="button" class="btn btn-link">选择 <input type="hidden" value="${id}"/></button></td>
+			<td>${name}</td>
+			<td>${msg}</td>	       	
+	    </tr>	
+	</script>	
 
 </body>
 </html>
