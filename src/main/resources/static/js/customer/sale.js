@@ -16,10 +16,6 @@ $(function() {
 			$("#oneItem").tmpl(json).appendTo("#itemList");
 		});
 	});
-
-	$("#itemList").on("click", ".btn-danger", function() {
-		$(this).parents("tr").remove();
-	});
 	
 	//点击弹框用户列表中的用户后
 	$(".costumer-modal-lg").on("click", ".btn-link", function(){
@@ -48,11 +44,15 @@ $(function() {
 //		$(this).parents("tr").find("input:eq(0)").val(itemId);
 //	});
 	
-	$("#itemList .dropdown-menu li").on("click",function() {
-		alert("捕捉到了！");
+	$("#itemList").on("click", ".btn-danger", function() {
+		$(this).parents("tr").remove();
+	});
+	
+	$("#itemList").on("click", ".dropdown-menu li", function(){
+		alert($(this).html());
 		var itemId = $(this).parent().find("input").val();
 		alert("点击商品id：" + itemId);
-		$(this).parents("div").find("button").html($(this).find("a").text()+" <span class='caret'></span>");
+		$(this).parents("div").find("button .dropdown-toggle").html($(this).find("a").text() + "<span class='caret'></span>");
 		$(this).parents("tr").find("input:eq(0)").val(itemId);
 	});
 	
