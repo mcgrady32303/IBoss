@@ -35,12 +35,13 @@ public class ReposController {
 	@RequestMapping("/repos/list4Sale")
 	public String findAll2() {
 
-		System.out.println("item列表：" + JSON.toJSONString(itemService.findAll()));
 		
-		StringBuffer result = new StringBuffer("{ items : ");
+		StringBuffer result = new StringBuffer("{ \"items\" : ");
 		result.append(JSON.toJSONString(itemService.findAll()));
 		result.append("}");
 
+		System.out.println("item列表：" + result.toString());
+		
 		return result.toString();
 	}
 	

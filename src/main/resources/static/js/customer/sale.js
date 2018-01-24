@@ -1,16 +1,18 @@
 //保存订单
 function saveOrder() {
 	var date = $("#orderDate").val();
-	var custumerId = $("#custumer").val();	
+	var custumerName = $("#custumer").val();	
+	var custumerId = $("#custumerId").val();
+	var customer = {"id":custumerId, "name":custumerName};
 	var totalPrice = $("#totalPrice").val();
 	var isPayed = $("input[name='isPayed']:checked").val();
-	var orderDetail=[];
+	var orderList=[];
 	var itemList = $("#itemList tr:gt(0)");
 	var size = itemList.size();
 	var order = {};
 	
 	order["date"] = date;
-	order["customerId"] =  custumerId;
+	order["customer"] =  customer;
 	order["totalPay"] =  totalPrice;
 	order["isPayed"] =  isPayed;
 	
@@ -22,17 +24,33 @@ function saveOrder() {
 	
 	//TODO 后续需要增加检查
 	itemList.each(function(){
+		var orderDetail = {};
 		var item = {};
 		item["id"] = $(this).find("input:hidden").val();
-		item["num"] = $(this).find("td>input").eq(0).val();
-		item["price"] =  $(this).find("td>input").eq(1).val();
+		orderDetail["item"] = item;
+		orderDetail["num"] = $(this).find("td>input").eq(0).val();
+		orderDetail["price"] =  $(this).find("td>input").eq(1).val();
 		
-		orderDetail.push(item);
+		orderList.push(orderDetail);
 	});
 	
-	order["orderDetail"] = orderDetail;
+	order["orderList"] = orderList;
 	
 	alert(JSON.stringify(order));
+	
+	$.ajax({
+		url : "/saveOrder",
+		data : JSON.stringify(order),
+		type : "post",
+		processData : false,			
+		contentType : 'application/json;charset=utf-8',
+		success : function(data) {
+			alert("保存成功");
+		},
+		error : function() {
+			alert('保存出错');
+		}
+	});
 	
 	
 }
@@ -48,7 +66,6 @@ $(function() {
 	
 	//点击弹框用户列表中的用户后
 	$(".costumer-modal-lg").on("click", ".btn-link", function(){
-		alert($(this).parents("tr").find("td:eq(1)").text());
 		$("#custumer").val($(this).parents("tr").find("td:eq(1)").text());
 		$("#customerId").val($(this).find("input").val());
 		$(".costumer-modal-lg").modal("hide");
@@ -68,7 +85,7 @@ $(function() {
 	});
 	
 	$("#itemList").on("click", ".dropdown-menu li", function(){		
-		var itemId = $(this).parent().find("input").val();		
+		var itemId = $(this).find("input").val();	
 		$(this).parents("td").find("button.dropdown-toggle").html($(this).find("a").text() + "<span class='caret'></span>");
 		$(this).parents("tr").find("input:eq(0)").val(itemId);
 	});

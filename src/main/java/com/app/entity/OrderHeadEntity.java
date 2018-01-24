@@ -25,7 +25,7 @@ public class OrderHeadEntity extends BaseEntity {
 	
 	private Date date;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="customer_id")
 	private CustomerEntity customer;
 	

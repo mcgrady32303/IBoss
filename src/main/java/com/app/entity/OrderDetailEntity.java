@@ -1,5 +1,6 @@
 package com.app.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="orderdetail")
 public class OrderDetailEntity extends BaseEntity {
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="item_id")
 	private ItemEntity item;
 	
@@ -23,7 +24,7 @@ public class OrderDetailEntity extends BaseEntity {
 	
 	private double price;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="orderhead_id")
 	private OrderHeadEntity orderhead;
 
