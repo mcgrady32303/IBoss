@@ -178,8 +178,8 @@
 							<span class="col-sm-1"></span> <label for="isPayed"
 								class="col-sm-2 control-label">已付款</label>
 							<div class="file-loading">
-								<input type="radio" name="isPayed" value="是" checked="checked" />
-								<input type="radio" name="isPayed" value="否" />
+								<input type="radio" name="isPayed" value="yes" checked="checked" >是</input>
+								<input type="radio" name="isPayed" value="no" >否</input>
 							</div>
 						</div>
 
@@ -257,24 +257,20 @@
 						aria-expanded="false">
 						选择材料 <span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu">					
+					<ul class="dropdown-menu">	
+                        {{each}}				
 						<li><a href="#">${name}</a><input type="hidden" value="${id}"/></li>					
-					<li><a href="#">Action</a></li>				    
+					    {{/each}}			    
 					</ul>
 				</div>
 			</td>
-			<td><input type="text" value="数量"/></td>
-			<td><input type="text" value="单价"/></td>
+			<td><input type="text" placeHolder="数量" required="required"/></td>
+			<td><input type="text" placeHolder="单价" /></td>
 			<td><button type="button" class="btn btn-danger">删除</button></td>
 		</tr>
 	</script>
 
-    <!--  
-	<script id="oneItemChoice" type="text/x-jquery-tmpl">
-         <li><a href="#">${name}</a><input type="hidden" value="${id}"/></li>
-    </script>
-    -->
-	<script id="oneCustomer" type="text/x-jquery-tmpl">
+    <script id="oneCustomer" type="text/x-jquery-tmpl">
 	    <tr>									
 			<td><button type="button" class="btn btn-link">选择 <input type="hidden" value="${id}"/></button></td>
 			<td>${name}</td>

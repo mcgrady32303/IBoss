@@ -6,6 +6,13 @@ public class CustomerDTO {
 	private String customerName;
 	private String actionType;
 	private long customerId;
+	private String msg;
+	public String getMsg() {
+		return msg;
+	}
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 	private MultipartFile sampleImage;
 	public MultipartFile getSampleImage() {
 		return sampleImage;

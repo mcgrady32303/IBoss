@@ -1,29 +1,21 @@
 package com.app.web;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.app.entity.ItemEntity;
 import com.app.pojo.PartDetailsDTO;
 import com.app.service.ItemService;
+import com.app.utils.ImageSaveUtils;
 
 @Controller
 public class ReposController {
@@ -34,11 +26,24 @@ public class ReposController {
 	@RequestMapping("/repos/list")
 	public String findAll() {
 
-		System.out.println(JSON.toJSONString(itemService.findAll()));
+		System.out.println("item列表：" + JSON.toJSONString(itemService.findAll()));
 
 		return JSON.toJSONString(itemService.findAll());
 	}
+	
+	@ResponseBody
+	@RequestMapping("/repos/list4Sale")
+	public String findAll2() {
 
+		System.out.println("item列表：" + JSON.toJSONString(itemService.findAll()));
+		
+		StringBuffer result = new StringBuffer("{ items : ");
+		result.append(JSON.toJSONString(itemService.findAll()));
+		result.append("}");
+
+		return result.toString();
+	}
+	
 	@RequestMapping(value = "/deleteItem")
 	@ResponseBody
 	public String deleteItem(HttpServletRequest request,
@@ -75,7 +80,7 @@ public class ReposController {
 			System.out.println("文件为空！");
 			return "文件为空！";
 		} else {
-			imageIndex = saveImage(info.getSampleImage());
+			imageIndex = ImageSaveUtils.saveImage(info.getSampleImage(), "item");
 		}
 
 		ItemEntity item = new ItemEntity();
@@ -88,34 +93,5 @@ public class ReposController {
 		itemService.save(item);
 
 		return "保存成功！";
-	}
-
-	private String saveImage(MultipartFile image) {
-
-		String suffix = image.getOriginalFilename().substring(
-				image.getOriginalFilename().lastIndexOf("."));
-		long curTime = System.currentTimeMillis();
-		String imageName = "" + curTime + suffix;
-
-		try {
-			String UPLOAD_PREFIX = "/";
-			File p = new File(ResourceUtils.getURL("classpath:").getPath());
-			if (p.exists()) {
-				UPLOAD_PREFIX = p.getAbsolutePath() + "/static/images/";
-			}
-
-			// Get the file and save it somewhere
-			byte[] bytes = image.getBytes();
-			Path path = Paths.get(UPLOAD_PREFIX + imageName);
-			Files.write(path, bytes);
-
-			return imageName;
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return "-1";
-	}
-
+	}	
 }

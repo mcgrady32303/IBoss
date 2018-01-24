@@ -36,69 +36,135 @@
 					<div class="panel-heading">客户管理</div>
 					<div class="panel-body">
 						<p>展示客户信息，以及相关管理</p>
-						<button type="button" class="btn btn-primary" data-toggle="modal"
+						<button type="button" id="btnAddCustomer" class="btn btn-primary" data-toggle="modal"
 							data-target="#">新增客户</button>
 					</div>
 
 					<!-- Table -->
-					<table class="table">
+					<table class="table" id="customerTable">
 						<thead>
 							<tr>
 								<th>序号</th>
 								<th>照片</th>
 								<th>姓名</th>
 								<th>电话</th>
-								<td width="200">操作</td>
+								<th>备注</th>
+								<th width="200">操作</th>
 							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">1</th>
-								<td>
-									<div class="col-xs-6 col-md-3">
-										<a href="#" class="thumbnail"> <img src="#" alt="..." />
-										</a>
-									</div>
-								</td>
-								<td>Otto</td>
-								<td>@mdo</td>
-								<td>
-									<button type="button" class="btn btn-link">详情</button>
-									<button type="button" class="btn btn-primary">Edit</button>
-									<button type="button" class="btn btn-danger">Del</button>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">2</th>
-								<td>Mark</td>
-								<td>Otto</td>
-								<td>@mdo</td>
-								<td>
-									<button type="button" class="btn btn-link">详情</button>
-									<button type="button" class="btn btn-primary">Edit</button>
-									<button type="button" class="btn btn-danger">Del</button>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row">3</th>
-								<td>Mark</td>
-								<td>Otto</td>
-								<td>@mdo</td>
-								<td>
-									<button type="button" class="btn btn-link">详情</button>
-									<button type="button" class="btn btn-primary">Edit</button>
-									<button type="button" class="btn btn-danger">Del</button>
-								</td>
-							</tr>
-						</tbody>
+						</thead>						
 					</table>
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
+
+
+	<!-- =====Customer Model===== -->
+	<div class="modal fade customer-modal-lg" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myLargeModalLabel">新增客户</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" action="/saveCustomer"
+						method="post" onsubmit="return ajax_submit()" id="customerInfo"
+						name="customerInfo" enctype="multipart/form-data" autocomplete="off">
+						<!-- 客户名称 -->
+						<div class="form-group">
+							<span class="col-sm-1"></span> <label for="customerName"
+								class="col-sm-2 control-label">客户名称</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="customerName"
+									placeholder="客户名称" name="customerName" />
+							</div>
+						</div>
+
+						<!-- 客户图片 -->
+						<div class="form-group">
+							<span class="col-sm-1"></span> <label for="sampleImage"
+								class="col-sm-2 control-label">客户图片</label>
+							<div class="file-loading">
+								<input id="sampleImage" name="sampleImage" data-toggle="tooltip"
+									title="修改时若不更改图片，则可以不选图片" type="file" required="required"
+									accept="image/*" />
+							</div>
+
+							<!-- 编辑时，展示原有图片 -->
+							<div id="originImage" style="display: none"
+								class="col-xs-6 col-md-3">
+								<a href="#" class="thumbnail"> <img src="#" alt="none"
+									width="200" />
+								</a>
+							</div>
+						</div>
+						<!-- 电话 -->
+						<div class="form-group">
+							<span class="col-sm-1"></span> <label for="tel"
+								class="col-sm-2 control-label">电话</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="tel"
+									placeholder="电话" name="tel" />
+							</div>
+						</div>
+						<!-- 备注 -->
+						<div class="form-group">
+							<span class="col-sm-1"></span> <label for="tel"
+								class="col-sm-2 control-label">备注</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="msg"
+									placeholder="备注" name="msg" />
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">取消</button>
+							<button type="submit" class="btn btn-primary" id="saveBtn">保存</button>
+							<span id="tip"> </span>
+						</div>
+
+						<!-- 隐藏属性 -->
+						<input type="hidden" id="actionType" name="actionType" value="add" />
+						<input type="hidden" id="customerId" name="customerId" value="1" />
+
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- end of modal -->
+
+	<!-- ======Template===== -->
+	<script id="customer-tmpl" type="text/x-jquery-tmpl">     	
+	<tr>
+		<th scope="row">${id}</th>
+		<td><div class="col-xs-6 col-md-3">
+				<a href="#" class="thumbnail"> <img src="/images/${pictureIndex}"
+					alt="none" width="200" />
+				</a>
+			</div>
+        </td>
+		<td>${name}</td>
+		<td>${tel}</td>
+		<td>${msg}</td>
+		<td>
+			<button type="button" class="btn btn-link">详情</button>
+			<button type="button" class="btn btn-primary">Edit<input type="hidden" value="${id}"/></button>
+			<button type="button" class="btn btn-danger">Del</button>
+		</td>
+	</tr>
+	</script>
 
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.form.js"></script>
+	<script src="/js/plugins/jquery.tmpl.min.js"></script>
+	<script src="/js/customer/customer.js"></script>
 	<script src="/js/ie10-viewport-bug-workaround.js"></script>
 	<script src="/js/ie-emulation-modes-warning.js"></script>
 </body>

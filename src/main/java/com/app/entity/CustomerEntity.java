@@ -15,6 +15,13 @@ public class CustomerEntity extends BaseEntity {
 	
 	private String name;
 	private String tel;
+	private String pictureIndex;
+	public String getPictureIndex() {
+		return pictureIndex;
+	}
+	public void setPictureIndex(String pictureIndex) {
+		this.pictureIndex = pictureIndex;
+	}
 	private String msg; /*备注*/
 	public String getName() {
 		return name;
