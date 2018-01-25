@@ -6,9 +6,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,15 +22,13 @@ public class OrderHeadEntity extends BaseEntity {
 	
 	private Date date;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="customer_id")
-	private CustomerEntity customer;
+	private long customerId;
 	
 	private double totalPay;
 	
 	private boolean isPayed;
 	
-	@OneToMany(mappedBy="orderhead",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="orderHead",cascade=CascadeType.ALL)
 	private List<OrderDetailEntity> orderList = new LinkedList<OrderDetailEntity>();
 
 	public Date getDate() {
@@ -44,12 +39,12 @@ public class OrderHeadEntity extends BaseEntity {
 		this.date = date;
 	}
 
-	public CustomerEntity getCustomer() {
-		return customer;
+	public long getCustomerId() {
+		return customerId;
 	}
 
-	public void setCustomer(CustomerEntity customer) {
-		this.customer = customer;
+	public void setCustomerId(long customerId) {
+		this.customerId = customerId;
 	}
 
 	public double getTotalPay() {
