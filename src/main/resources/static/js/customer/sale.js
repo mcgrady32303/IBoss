@@ -1,9 +1,9 @@
 //保存订单
 function saveOrder() {
 	var date = $("#orderDate").val();
-	var custumerName = $("#custumer").val();	
-	var custumerId = $("#custumerId").val();
-	var customer = {"id":custumerId, "name":custumerName};
+	var customerName = $("#customer").val();	
+	var customerId = $("#customerId").val();
+//	var customer = {"id":customerId, "name":customerName};
 	var totalPrice = $("#totalPrice").val();
 	var isPayed = $("input[name='isPayed']:checked").val();
 	var orderList=[];
@@ -12,8 +12,9 @@ function saveOrder() {
 	var order = {};
 	
 	order["date"] = date;
-	order["customer"] =  customer;
-	order["totalPay"] =  totalPrice;
+//	order["customer"] =  customer;
+	order["customer_id"] = customerId;
+	order["totalPrice"] =  totalPrice;
 	order["isPayed"] =  isPayed;
 	
 	if(size == 0) {
@@ -25,9 +26,11 @@ function saveOrder() {
 	//TODO 后续需要增加检查
 	itemList.each(function(){
 		var orderDetail = {};
-		var item = {};
-		item["id"] = $(this).find("input:hidden").val();
-		orderDetail["item"] = item;
+		var itemId = $(this).find("input:hidden").val();
+//		var item = {};
+//		item["id"] = $(this).find("input:hidden").val();
+//		orderDetail["item"] = item;
+		orderDetail["item_id"] = itemId;
 		orderDetail["num"] = $(this).find("td>input").eq(0).val();
 		orderDetail["price"] =  $(this).find("td>input").eq(1).val();
 		
@@ -66,13 +69,13 @@ $(function() {
 	
 	//点击弹框用户列表中的用户后
 	$(".costumer-modal-lg").on("click", ".btn-link", function(){
-		$("#custumer").val($(this).parents("tr").find("td:eq(1)").text());
+		$("#customer").val($(this).parents("tr").find("td:eq(1)").text());
 		$("#customerId").val($(this).find("input").val());
 		$(".costumer-modal-lg").modal("hide");
 	});
 	
 	//点击选择客户名称输入框
-	$("#custumer").on("click",  function(){		
+	$("#customer").on("click",  function(){		
 		$.getJSON("/getAllCustomers", function(json){
 			$("#custmerList tr:gt(0)").remove();
 			$("#oneCustomer").tmpl(json).appendTo("#custmerList");

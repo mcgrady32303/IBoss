@@ -1,47 +1,46 @@
 package com.app.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 /**
- * 订单中的一项
- * 一个orderHead对应多个orderDetail，一个orderDetail对应一个item
+ * 订单中的一项 一个orderHead对应多个orderDetail
+ * 
  * @author Administrator
- *
+ * 
  */
 @Entity
-@Table(name="orderdetail")
+@Table(name = "orderdetail")
 public class OrderDetailEntity extends BaseEntity {
-	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="item_id")
-	private ItemEntity item;
-	
+
+	private long itemId;
+
 	private int num;
-	
+
 	private double price;
-	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="orderhead_id")
-	private OrderHeadEntity orderhead;
 
-	public OrderHeadEntity getOrder() {
-		return orderhead;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "orderhead_id")
+	private OrderHeadEntity orderHead;
+
+	public long getItemId() {
+		return itemId;
 	}
 
-	public void setOrder(OrderHeadEntity order) {
-		this.orderhead = order;
+	public void setItemId(long itemId) {
+		this.itemId = itemId;
 	}
 
-	public ItemEntity getItem() {
-		return item;
+
+	public OrderHeadEntity getOrderHead() {
+		return orderHead;
 	}
 
-	public void setItem(ItemEntity item) {
-		this.item = item;
+	public void setOrderHead(OrderHeadEntity orderHead) {
+		this.orderHead = orderHead;
 	}
 
 	public int getNum() {
@@ -59,6 +58,5 @@ public class OrderDetailEntity extends BaseEntity {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
 
 }
