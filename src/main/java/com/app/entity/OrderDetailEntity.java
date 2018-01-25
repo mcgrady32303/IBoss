@@ -58,5 +58,13 @@ public class OrderDetailEntity extends BaseEntity {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	
+	public int hashCode() {
+		return this.hashCode();
+	}
+	
+	public boolean equals(Object obj) {
+		return this == obj;
+	}
 
 }

@@ -4,7 +4,7 @@ function saveOrder() {
 	var customerName = $("#customer").val();	
 	var customerId = $("#customerId").val();
 //	var customer = {"id":customerId, "name":customerName};
-	var totalPrice = $("#totalPrice").val();
+	var totalPay = $("#totalPay").val();
 	var isPayed = $("input[name='isPayed']:checked").val();
 	var orderList=[];
 	var itemList = $("#itemList tr:gt(0)");
@@ -14,7 +14,7 @@ function saveOrder() {
 	order["date"] = date;
 //	order["customer"] =  customer;
 	order["customer_id"] = customerId;
-	order["totalPrice"] =  totalPrice;
+	order["totalPay"] =  totalPay;
 	order["isPayed"] =  isPayed;
 	
 	if(size == 0) {
