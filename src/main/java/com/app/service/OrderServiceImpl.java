@@ -34,4 +34,9 @@ public class OrderServiceImpl implements OrderService {
 		orderRepository.save(order);
 	}
 
+	@Override
+	public OrderHeadEntity getOne(long id) {
+		return orderRepository.findOne(id);
+	}
+
 }

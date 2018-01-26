@@ -12,5 +12,7 @@ public interface OrderService {
 	void delete(OrderHeadEntity order);
 
 	void save(OrderHeadEntity order);
+	
+	OrderHeadEntity getOne(long id);
 
 }

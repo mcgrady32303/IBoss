@@ -1,3 +1,15 @@
+function listOrderByDate(date) {	
+	$.getJSON("/sale/listOrderByDate/"+date,  function(json) {
+		alert("测试参数化url");
+	});	
+}
+
+function listCurOrderList() {
+	var today = new Date();
+	alert(today.getFullYear() +"-" + today.getMonth()+1+"-" + today.getDate());
+	listOrderByDate(today.getFullYear() +"-" + today.getMonth()+1+"-" + today.getDate());
+}
+
 //保存订单
 function saveOrder() {
 	var date = $("#orderDate").val();
@@ -61,6 +73,9 @@ function saveOrder() {
 
 
 $(function() {
+	
+	listCurOrderList();
+	
 	$("#addItem").click(function() {
 		$.getJSON("/repos/list4Sale", function(json) {
 			$("#oneItem").tmpl(json).appendTo("#itemList");
@@ -81,6 +96,12 @@ $(function() {
 			$("#oneCustomer").tmpl(json).appendTo("#custmerList");
 			$(".costumer-modal-lg").css("z-index",$(".sale-modal-lg").attr("z-index")+"1").modal("show");
 		});		
+	});
+	
+	
+	//点击关闭弹框过后,清除数据
+	$(".sale-modal-lg").on("hide.bs.modal", function() {		
+	    $(this).removeData();
 	});
 	
 	$("#itemList").on("click", ".btn-danger", function() {

@@ -2,6 +2,7 @@ package com.app.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,19 +30,39 @@ public class SaleController {
 
 		orderService.save(order);
 
+		testSave();
+
+		testDelete();
+
+		return "test";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/sale/listOrderByDate/{date}", method = RequestMethod.GET)
+	public String listOrderByDate(@PathVariable String date) {
+		System.out.println("date:" + date);
+		return "result";
+	}
+
+	private void testSave() {
+
+		OrderHeadEntity order = orderService.getOne(1L);
 		System.out.println("start to test update head");
 		// 测试保存
-		order.setId(7);
-		order.setTotalPay(10L);
+		order.setTotalPay(10000.38);
 		orderService.save(order);
 
 		System.out.println("start to test update body");
 		// 测试保存
-		order.setId(7);
-		order.getOrderList().get(0).setId(13L);
-		order.getOrderList().get(0).setNum(-1);
-		orderService.save(order);
-		return "test";
+		OrderHeadEntity order2 = orderService.getOne(2L);
+		order2.getOrderList().get(0).setNum(-1);
+		order2.getOrderList().remove(1);// 外键关联实体无法通过save删除
+		orderService.save(order2);
+	}
+
+	private void testDelete() {
+		OrderHeadEntity order = orderService.getOne(3L);
+		orderService.delete(order);
 	}
 
 }

@@ -88,41 +88,6 @@
 									<th width="200">操作</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>date</td>
-									<td>Otto</td>
-									<td>@mdo</td>
-									<td>
-										<button type="button" class="btn btn-link">详情</button>
-										<button type="button" class="btn btn-primary">Edit</button>
-										<button type="button" class="btn btn-danger">Del</button>
-									</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>Mark</td>
-									<td>Otto</td>
-									<td>@mdo</td>
-									<td>
-										<button type="button" class="btn btn-link">详情</button>
-										<button type="button" class="btn btn-primary">Edit</button>
-										<button type="button" class="btn btn-danger">Del</button>
-									</td>
-								</tr>
-								<tr>
-									<th scope="row">3</th>
-									<td>Mark</td>
-									<td>Otto</td>
-									<td>@mdo</td>
-									<td>
-										<button type="button" class="btn btn-link">详情</button>
-										<button type="button" class="btn btn-primary">Edit</button>
-										<button type="button" class="btn btn-danger">Del</button>
-									</td>
-								</tr>
-							</tbody>
 						</table>
 					</div>
 				</div>
@@ -178,8 +143,8 @@
 							<span class="col-sm-1"></span> <label for="isPayed"
 								class="col-sm-2 control-label">已付款</label>
 							<div class="file-loading">
-								<input type="radio" name="isPayed" value="1" checked="checked" >是</input>
-								<input type="radio" name="isPayed" value="0" >否</input>
+								<input type="radio" name="isPayed" value="1" checked="checked">是</input>
+								<input type="radio" name="isPayed" value="0">否</input>
 							</div>
 						</div>
 
@@ -187,7 +152,7 @@
 						<!-- Table -->
 						<table id="itemList" class="table">
 							<thead>
-								<tr>									
+								<tr>
 									<th>材料名称</th>
 									<th>数量</th>
 									<th>单价</th>
@@ -270,13 +235,31 @@
 		</tr>
 	</script>
 
-    <script id="oneCustomer" type="text/x-jquery-tmpl">
+	<script id="oneCustomer" type="text/x-jquery-tmpl">
 	    <tr>									
 			<td><button type="button" class="btn btn-link">选择 <input type="hidden" value="${id}"/></button></td>
 			<td>${name}</td>
 			<td>${msg}</td>	       	
 	    </tr>	
-	</script>	
+	</script>
+
+	<script id="oneOrder" type="text/x-jquery-tmpl">
+	<tr>
+		<th scope="row">1</th>
+		<td>${date}</td>
+		<td>${customerName}</td>
+		<td>
+         {{each itemList}}
+          <p>{itemDetail}</p><br/>
+         {{/each}}
+        </td>
+		<td>			
+			<button type="button" class="btn btn-primary">Edit</button>
+		    <button type="button" class="btn btn-danger">Del</button>
+		</td>
+	</tr>
+	</script>
+
 
 </body>
 </html>
