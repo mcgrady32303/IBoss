@@ -19,11 +19,6 @@ public abstract class BaseEntity {
 	protected long id;
 	//0:无效 1:有效
 	protected int status;
-	//创建信息
-	protected long createById;
-	protected Date createDate;
-	protected long updateById;
-	protected Date updateDate;
 	
 	public long getId() {
 		return id;
@@ -31,28 +26,4 @@ public abstract class BaseEntity {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getCreateById() {
-		return createById;
-	}
-	public void setCreateById(long createById) {
-		this.createById = createById;
-	}
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	public long getUpdateById() {
-		return updateById;
-	}
-	public void setUpdateById(long updateById) {
-		this.updateById = updateById;
-	}
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}	
 }
