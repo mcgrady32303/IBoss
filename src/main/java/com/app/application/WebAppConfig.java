@@ -33,7 +33,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
      * @param registry
      */
     public void addInterceptors(InterceptorRegistry registry) {
-    	registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/user/**");
+    	registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/repository/**");
 	}
     
     /**

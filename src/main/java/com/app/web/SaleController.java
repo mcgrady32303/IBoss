@@ -39,7 +39,7 @@ public class SaleController {
 	@RequestMapping(value = "/saveOrder", method = RequestMethod.POST)
 	public String saveOrder(@RequestBody OrderHeadEntity order) {
 
-		System.out.println("order entity:" + JSON.toJSONString(order));
+		System.out.println("to save order entity:" + JSON.toJSONString(order));
 
 		for (OrderDetailEntity ode : order.getOrderList()) {
 			ode.setOrderHead(order);

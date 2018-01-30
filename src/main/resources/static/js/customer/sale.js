@@ -25,10 +25,8 @@ function deleteOrderById(id, orderHtml) {
 //点击编辑某订单
 function editOrderById(id) {
 	$.getJSON("/sale/listOrderById/" + id, function(order) {
-		// TODO 弹框,赋值,考虑兼容add模式
-		clearModalData();
 		
-		alert("order string:" + JSON.stringify(order));
+		clearModalData();
 		
 		//订单主题信息
 		$("#orderId").val(id);
@@ -38,14 +36,13 @@ function editOrderById(id) {
 		$("#customer").val(order.customerName);
 		$("#totalPay").val(order.totalPay);
 		if(order.payed == true) {
-			$("#hasPayed").val("checked");
+			$("#hasPayed").prop("checked", "true");
 		} else {
-			$("#notPayed").val("checked");
+			alert("未支付");
+			$("#notPayed").prop("checked", "true");
 		}
 		
-		var itemsFromOrder = order.orderList;
-		alert("item list:" + itemsFromOrder);
-		alert("item list:" + JSON.stringify(itemsFromOrder));
+		var itemsFromOrder = order.orderList;		
 		var numOfItems = itemsFromOrder.length;
 		for(var i = 0; i < numOfItems; i++) {
 			var oneTableHtml = $("#oneItem").tmpl(itemListObj);
@@ -77,16 +74,13 @@ function listOrderByDate(date) {
 		//先清理之前数据
 		$("#orderQueryList tr:gt(0)").remove();
 		$("#oneOrder").tmpl(json).appendTo("#orderQueryList");
+		//整理显示序号
+		orderTableIndex();
 	});
-	
-	//整理显示序号
-	orderTableIndex();
 }
 
 function listCurOrderList() {
 	var today = new Date();
-	alert(today.getFullYear() + "-" + today.getMonth() + 1 + "-"
-			+ today.getDate());
 	listOrderByDate(today.getFullYear() + "-" + today.getMonth() + 1 + "-"
 			+ today.getDate());
 }
@@ -134,7 +128,7 @@ function saveOrder() {
 	var customerName = $("#customer").val();
 	var customerId = $("#customerId").val();
 	var totalPay = $("#totalPay").val();
-	var isPayed = $("input[name='isPayed']:checked").val();
+	var payed = $("#hasPayed").prop("checked") == true ? 1 :0;
 	var orderList = [];
 	var itemList = $("#itemList tr:gt(0)");
 	var size = itemList.size();
@@ -145,11 +139,10 @@ function saveOrder() {
 	order["date"] = date;
 	order["customerId"] = customerId;
 	order["totalPay"] = totalPay;
-	order["isPayed"] = isPayed;
+	order["payed"] = payed;
 
 	if (size == 0) {
 		alert("订单详情为空！");
-		alert(JSON.stringify(order));
 		return;
 	}
 
@@ -168,8 +161,6 @@ function saveOrder() {
 
 	order["orderList"] = orderList;
 
-	alert(JSON.stringify(order));
-
 	$.ajax({
 		url : "/saveOrder",
 		data : JSON.stringify(order),
@@ -177,10 +168,15 @@ function saveOrder() {
 		processData : false,
 		contentType : 'application/json;charset=utf-8',
 		success : function(data) {
-			alert("保存成功");
+			$("#tip").html("<span style='color:blueviolet'>保存成功！</span>");
+			setTimeout(location.reload(), 2000);
+			$(".sale-modal-lg").modal("hide");
 		},
 		error : function() {
+			$("#tip").html("<span style='color:blueviolet'>删除成功！</span>");
+			setTimeout(location.reload(), 2000);
 			alert('保存出错');
+			$(".sale-modal-lg").modal("hide");
 		}
 	});
 }
@@ -191,7 +187,8 @@ function clearModalData() {
 	$("#customer").val("");
 	$("#totalPay").val("");
 	$("#itemList tr:gt(0)").remove();
-	//TODO 擦除hidden元素中的值
+	
+	//擦除hidden元素中的值
 	$("#customerId").val("0");
 	$("#orderId").val("0");
 	$("#actionType").val("add");

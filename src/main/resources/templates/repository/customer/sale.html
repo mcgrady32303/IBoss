@@ -50,28 +50,22 @@
 							class="btn btn-lg btn-success" data-toggle="modal">录单</button>
 
 						<div class="row">
-							<div class="col-md-4"></div>
-							<label>日期</label>
-							<input id="queryDate" name="queryDate" type="date" placeHolder="选择日期"/>
-							<label>客户名字</label>
-							<input id="queryCustomer" name="queryCustomer" type="text" placeHolder="选择客户"/>
-							<input type="hidden" id="queryCustomerId" value="-1"/>
-							<!--  
-							<div class="col-md-2">
-								<div id="selectQueryTypeBtn" class="dropdown">
-									<button class="btn btn-default dropdown-toggle" type="button"
-										id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="true">
-										查询类别 <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-										<li><a href="#">按日期</a><input type="hidden" value="date"/></li>
-										<li><a href="#">按客户</a><input type="hidden" value="customer"/></li>
-									</ul>
-								</div>
+							<div class="col-md-2"></div>
+							<div class="col-md-1">
+								<label>日期</label>
 							</div>
-							-->
-							<div class="col-md-4">									
+							<div class="col-md-2">
+								<input id="queryDate" name="queryDate" type="date" placeHolder="选择日期"/>
+							</div>
+							<div class="col-md-1">
+								<label>客户名字</label>
+							</div>
+							<div class="col-md-2">
+								<input id="queryCustomer" name="queryCustomer" type="text" placeHolder="选择客户"/>
+								<input type="hidden" id="queryCustomerId" value="-1"/>
+							</div>
+						    <div class="col-md-1"></div>
+							<div class="col-md-2">									
 									<button id="querySubmit" class="btn btn-default">查询</button>
 							</div>
 						</div>
@@ -85,6 +79,7 @@
 									<th>日期</th>
 									<th>客户</th>
 									<th>订单详情</th>
+									<th>支付状态</th>
 									<th width="200">操作</th>
 								</tr>
 							</thead>
@@ -143,7 +138,7 @@
 							<span class="col-sm-1"></span> <label for="isPayed"
 								class="col-sm-2 control-label">已付款</label>
 							<div class="file-loading">
-								<input type="radio" id="hasPayed" name="isPayed" value="1" checked="checked">是</input>
+								<input type="radio" id="hasPayed" name="isPayed" value="1" checked="true">是</input>
 								<input type="radio" id="notPayed" name="isPayed" value="0">否</input>
 							</div>
 						</div>
@@ -172,6 +167,7 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 						<button type="button" class="btn btn-primary" id="saveBtn">保存</button>
+						<span id="tip"> </span>
 					</div>
 				</div>
 			</div>
@@ -258,6 +254,13 @@
                                材料名称:${itemName} // 数量：${num} // 单价：${price}<br/>
           {{/each}}
         </td>
+        <td>
+            {{if payed == true}}
+					已支付
+			{{else payed == false}}
+					未支付
+			{{/if}}
+		</td>
 		<td>			
 			<button type="button" class="btn btn-primary">Edit<input type="hidden" value="${id}"/></button>
 		    <button type="button" class="btn btn-danger">Del<input type="hidden" value="${id}"/></button>
