@@ -36,4 +36,9 @@ public class CustomerServiceImpl implements CustomerService {
 		
 	}
 
+	@Override
+	public CustomerEntity findOne(Long id) {
+		return customerRepository.findOne(id);
+	}
+
 }

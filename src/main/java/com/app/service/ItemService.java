@@ -21,5 +21,7 @@ public interface ItemService {
 	void delete(ItemEntity item);
 	
 	void save(ItemEntity item);
+	
+	ItemEntity findOne(Long id);
 
 }

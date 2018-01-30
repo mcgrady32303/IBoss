@@ -1,5 +1,7 @@
 package com.app.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,10 +36,9 @@ public class ReposController {
 	@ResponseBody
 	@RequestMapping("/repos/list4Sale")
 	public String findAll2() {
-
-		
+		List<ItemEntity> items = itemService.findAll();
 		StringBuffer result = new StringBuffer("{ \"items\" : ");
-		result.append(JSON.toJSONString(itemService.findAll()));
+		result.append(JSON.toJSONString(items));
 		result.append("}");
 
 		System.out.println("item列表：" + result.toString());

@@ -17,6 +17,7 @@ public class ItemEntity extends BaseEntity {
 	private long num;
 	private String description;
 	private String pictureIndex;/*图片唯一标识*/
+	
 	public String getName() {
 		return name;
 	}

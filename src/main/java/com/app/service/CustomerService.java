@@ -13,5 +13,7 @@ public interface CustomerService {
 	void delete(CustomerEntity item);
 
 	void save(CustomerEntity item);
+	
+	CustomerEntity findOne(Long id);
 
 }

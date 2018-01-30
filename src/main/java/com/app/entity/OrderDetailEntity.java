@@ -5,6 +5,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 订单中的一项 一个orderHead对应多个orderDetail
@@ -17,6 +18,9 @@ import javax.persistence.Table;
 public class OrderDetailEntity extends BaseEntity {
 
 	private long itemId;
+	
+	@Transient
+	private String itemName;
 
 	private int num;
 
@@ -41,6 +45,14 @@ public class OrderDetailEntity extends BaseEntity {
 
 	public void setOrderHead(OrderHeadEntity orderHead) {
 		this.orderHead = orderHead;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 
 	public int getNum() {

@@ -9,6 +9,8 @@ public class OrderDTO {
 	
 	private long customer_id;
 	
+	private String customerName;
+	
 	private double totalPrice;
 	
 	private boolean isPayed;
@@ -25,6 +27,14 @@ public class OrderDTO {
 
 	public long getCustomer_id() {
 		return customer_id;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
 	public void setCustomer_id(long customer_id) {

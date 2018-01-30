@@ -3,7 +3,6 @@ function initRepos() {
 		$("#item-tmpl").tmpl(json).appendTo("#reposTable");
 		var size = $("#reposTable tr").size() - 1;
 		for(var i = 0; i < size; i++ ) {
-//			 $("#reposTable tr:eq(i+1) th").text(i+1);
 			 $("#reposTable tr").eq(i+1).find("th").text(i+1);
 		}
 	});

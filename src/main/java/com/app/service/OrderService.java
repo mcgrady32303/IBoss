@@ -9,10 +9,15 @@ public interface OrderService {
 
 	void update(OrderHeadEntity order);
 
-	void delete(OrderHeadEntity order);
+	void delete(Long id);
 
 	void save(OrderHeadEntity order);
 	
-	OrderHeadEntity getOne(long id);
-
+	OrderHeadEntity getOne(Long id);
+	
+	List<OrderHeadEntity> findALLByDate(String date);
+	
+	List<OrderHeadEntity> findALLByCustomerId(Long customerId);
+	
+	List<OrderHeadEntity> findALLByCustomerByDate(Long customerId, String date);
 }

@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 
 /**
  * 
@@ -22,10 +24,24 @@ public class OrderHeadEntity extends BaseEntity {
 	private String date;
 
 	private long customerId;
+	
+	@Transient
+	private String customerName;
+	
+	@Transient
+	private String actionType;
+
+	public String getActionType() {
+		return actionType;
+	}
+
+	public void setActionType(String actionType) {
+		this.actionType = actionType;
+	}
 
 	private double totalPay;
 
-	private boolean isPayed;
+	private boolean payed;
 
 	@OneToMany(mappedBy = "orderHead", cascade = CascadeType.ALL)
 	private List<OrderDetailEntity> orderList = new LinkedList<OrderDetailEntity>();
@@ -46,6 +62,14 @@ public class OrderHeadEntity extends BaseEntity {
 		this.customerId = customerId;
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
 	public double getTotalPay() {
 		return totalPay;
 	}
@@ -55,11 +79,11 @@ public class OrderHeadEntity extends BaseEntity {
 	}
 
 	public boolean isPayed() {
-		return isPayed;
+		return payed;
 	}
 
 	public void setPayed(boolean isPayed) {
-		this.isPayed = isPayed;
+		this.payed = isPayed;
 	}
 
 	public List<OrderDetailEntity> getOrderList() {
