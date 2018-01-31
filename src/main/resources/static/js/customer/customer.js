@@ -66,25 +66,22 @@ $(function() {
 	});
 
 	// 点击编辑时的操作
-	$("#customerTable").on(
-			"click",
-			".btn-primary",
-			function() {
+	$("#customerTable").on("click",	".btn-primary",	function() {
+				var originIndex = $(this).parents("tr").find("img").attr("src");
 				$("#actionType").val("edit");
 				$("#originImage img").attr("src",
-						$(this).parents("tr").find("img").attr("src"));
+						originIndex);
+				$("#originImageIndex").val(originIndex.substring(8));
 				$("#originImage").show();
 				$("#customerId").val($(this).find("input").val());
 				$("#sampleImage").attr("required", false);
-				alert($(this).toString()
-						+ $(this).parents("tr").find("td:eq(1)").text());
 				$("#customerName").val(
 						$(this).parents("tr").find("td:eq(1)").text());
 				$("#tel").val($(this).parents("tr").find("td:eq(2)").text());
 				$("#msg").val($(this).parents("tr").find("td:eq(3)").text());
 				$('.customer-modal-lg').modal("show");
 				// 提示不修改图片可以不再上传
-			});
+	});
 
 	// 点击删除某一个客户
 	$("#customerTable").on("click", ".btn-danger", function() {

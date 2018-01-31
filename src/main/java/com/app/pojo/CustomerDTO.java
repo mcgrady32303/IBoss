@@ -7,6 +7,13 @@ public class CustomerDTO {
 	private String actionType;
 	private long customerId;
 	private String msg;
+	private String originImageIndex; 
+	public String getOriginImageIndex() {
+		return originImageIndex;
+	}
+	public void setOriginImageIndex(String originImageIndex) {
+		this.originImageIndex = originImageIndex;
+	}
 	public String getMsg() {
 		return msg;
 	}

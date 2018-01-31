@@ -7,6 +7,13 @@ public class PartDetailsDTO {
 	private String goodName;
 	private String actionType;
 	private long itemId;
+	private String originImageIndex; 
+	public String getOriginImageIndex() {
+		return originImageIndex;
+	}
+	public void setOriginImageIndex(String originImageIndex) {
+		this.originImageIndex = originImageIndex;
+	}
 	public String getActionType() {
 		return actionType;
 	}

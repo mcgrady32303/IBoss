@@ -84,12 +84,13 @@ $(function() {
 
 	//点击编辑时的操作
 	$("#reposTable").on("click", ".btn-primary",function() {
+		var originIndex = $(this).parents("tr").find("img").attr("src");
 		$("#actionType").val("edit");
-		$("#originImage img").attr("src",$(this).parents("tr").find("img").attr("src"));
+		$("#originImage img").attr("src", originIndex);
+		$("#originImageIndex").val(originIndex.substring(8));
 		$("#originImage").show();
 		$("#itemId").val($(this).find("input").val());		
 		$("#sampleImage").attr("required", false);
-		alert($(this).toString() + $(this).parents("td").prev().prev().text());
 		$("#goodName").val($(this).parents("td").prev().prev().text());
 		$("#initNum").val($(this).parents("td").prev().text());
 		$('.storage-modal-lg').modal("show");

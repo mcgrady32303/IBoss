@@ -49,11 +49,11 @@ public class CustomerController {
 			return "上传出错！";
 		}
 
-		String imageIndex = "-1";
+		String imageIndex = "#";
 
 		if (info.getSampleImage().isEmpty()) {
-			System.out.println("文件为空！");
-			return "文件为空！";
+			logger.info("文件为空！");
+			imageIndex = info.getOriginImageIndex();
 		} else {
 			imageIndex = ImageSaveUtils.saveImage(info.getSampleImage(), "customer");
 		}

@@ -40,7 +40,7 @@ public class ImageSaveUtils {
 			e.printStackTrace();
 		}
 
-		return "-1";
+		return "#1";
 	}
 
 

@@ -103,18 +103,18 @@ public class ReposController {
 			return "上传出错！";
 		}
 
-		String imageIndex = "-1";
+		String imageIndex = "#";
 
 		if (info.getSampleImage().isEmpty()) {
 			logger.info("文件为空！");
-			return "文件为空！";
+			imageIndex = info.getOriginImageIndex();
 		} else {
 			imageIndex = ImageSaveUtils
 					.saveImage(info.getSampleImage(), "item");
 		}
 
 		ItemEntity item = new ItemEntity();
-		item.setName(info.getGoodName());
+		item.setName(info.getGoodName());	
 		item.setPictureIndex(imageIndex);
 		item.setNum(info.getInitNum());
 		if (info.getActionType().equals("edit")) {
