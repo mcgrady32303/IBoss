@@ -1,26 +1,36 @@
 package com.app.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.app.entity.CustomerEntity;
+import com.app.entity.OrderHeadEntity;
 import com.app.pojo.CustomerDTO;
 import com.app.service.CustomerService;
+import com.app.service.OrderService;
 import com.app.utils.ImageSaveUtils;
 
 @Controller
 public class CustomerController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private CustomerService customerService;
+	@Autowired
+	private OrderService orderService;
 
 	@ResponseBody
 	@RequestMapping("/getAllCustomers")
@@ -75,6 +85,28 @@ public class CustomerController {
 		customerService.delete(customer);
 		
 		return "";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/deleteCustomer/{id}", method = RequestMethod.GET)
+	public String deleteItem(@PathVariable Long id) {
+
+		logger.info("to delete id : " + id);
+		
+		if(hasUsedByOrder(id)) {
+			logger.error("被删除客户仍被订单使用,不能删除!");
+			return "被删除客户仍被订单使用,不能删除!";
+		}
+
+		customerService.delete(id);
+
+		return "success";
+	}
+	
+	private boolean hasUsedByOrder(Long id) {
+		List<OrderHeadEntity> list = orderService.findALLByCustomerId(id);
+		
+		return !list.isEmpty();
 	}
 
 }

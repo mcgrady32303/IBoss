@@ -40,4 +40,9 @@ public class ItemServiceImpl implements ItemService {
 		return itemRepository.findOne(id);
 	}
 
+	@Override
+	public void delete(Long id) {
+		itemRepository.delete(id);
+	}
+
 }

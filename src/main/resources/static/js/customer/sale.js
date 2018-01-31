@@ -1,4 +1,6 @@
 var itemListObj;
+toastr.options.positionClass = 'toast-top-center';//提示框位置
+
 //预先加载item列表
 function loadItemList() {
 	$.getJSON("/repos/list4Sale", function(json) {
@@ -13,11 +15,11 @@ function deleteOrderById(id, orderHtml) {
 		processData : false,
 		contentType : 'application/json;charset=utf-8',
 		success : function(data) {
-			alert("删除成功");
+			toastr.success('删除成功');	
 			orderHtml.remove();
 		},
 		error : function() {
-			alert('保存出错');
+			toastr.error('删除出错');	
 		}
 	});
 }
@@ -38,7 +40,6 @@ function editOrderById(id) {
 		if(order.payed == true) {
 			$("#hasPayed").prop("checked", "true");
 		} else {
-			alert("未支付");
 			$("#notPayed").prop("checked", "true");
 		}
 		
@@ -71,6 +72,9 @@ function addOrderWhenClick() {
 
 function listOrderByDate(date) {
 	$.getJSON("/sale/listOrderByDate/" + date, function(json) {
+		if(json=="") {
+			toastr.info(date+'当天无数据');			
+		}
 		//先清理之前数据
 		$("#orderQueryList tr:gt(0)").remove();
 		$("#oneOrder").tmpl(json).appendTo("#orderQueryList");
@@ -92,14 +96,12 @@ function queryOrder() {
 	var data;
 	
 	if(date == "" && customerId=="-1") {
-		alert("请选择日期或者客户");
+		toastr.error('请选择日期或者客户!');
 		return;
 	}
 	
 	if(customerId == "-1") {
-		$.getJSON("/sale/listOrderByDate/" + date, function(json) {
-			actionAfterSuccess(json);
-		});		
+		listOrderByDate(date);
 	} else if(date == "") {
 		$.getJSON("/sale/listOrderByCustomerId/" + customerId, function(json) {
 			actionAfterSuccess(json);
@@ -114,12 +116,16 @@ function queryOrder() {
 
 //查询成功后,统一处理
 function actionAfterSuccess(data) {
+	if(data=="") {
+		toastr.info('查询无数据');			
+	}
 	$("#orderQueryList tr:gt(0)").remove();
 	$("#oneOrder").tmpl(data).appendTo("#orderQueryList");	
 	//整理显示序号
 	orderTableIndex();
 	//最后清理
 	$("#queryCustomerId").val("-1");
+	$("#queryCustomer").val("");
 }
 
 // 保存订单
@@ -142,7 +148,7 @@ function saveOrder() {
 	order["payed"] = payed;
 
 	if (size == 0) {
-		alert("订单详情为空！");
+		toastr.error('订单详情为空,保存失败!');
 		return;
 	}
 
@@ -168,14 +174,13 @@ function saveOrder() {
 		processData : false,
 		contentType : 'application/json;charset=utf-8',
 		success : function(data) {
-			$("#tip").html("<span style='color:blueviolet'>保存成功！</span>");
+			toastr.info('保存成功!');	
 			setTimeout(location.reload(), 2000);
 			$(".sale-modal-lg").modal("hide");
 		},
 		error : function() {
-			$("#tip").html("<span style='color:blueviolet'>删除成功！</span>");
+			toastr.error('保存失败!');	
 			setTimeout(location.reload(), 2000);
-			alert('保存出错');
 			$(".sale-modal-lg").modal("hide");
 		}
 	});
@@ -190,6 +195,7 @@ function clearModalData() {
 	
 	//擦除hidden元素中的值
 	$("#customerId").val("0");
+	$("#queryCustomer").val("");
 	$("#orderId").val("0");
 	$("#actionType").val("add");
 }
@@ -272,10 +278,10 @@ $(function() {
 				processData : false,
 				contentType : 'application/json;charset=utf-8',
 				success : function(data) {
-					alert("删除成功");
+					toastr.success('删除成功!');	
 				},
 				error : function() {
-					alert('删除出错');
+					toastr.error('删除出错!');	
 				}
 			});			
 		}
@@ -301,7 +307,7 @@ $(function() {
 	$("#orderQueryList").on("click", ".btn-primary", function() {
 		var toQueryId = $(this).find("input").val();
 		if (toQueryId == null) {
-			alert("选中id无效!");
+			toastr.error('选中订单id有误!');
 			return;
 		}
 		editOrderById(toQueryId);
@@ -313,7 +319,7 @@ $(function() {
 		var toDelId = $(this).find("input").val();
 		var orderHtml = $(this).parents("tr");
 		if (toDelId == null) {
-			alert("删除选中id无效!");
+			toastr.error('选中订单id有误!');
 			return;
 		}
 		deleteOrderById(toDelId, orderHtml);

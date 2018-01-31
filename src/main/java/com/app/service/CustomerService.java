@@ -11,6 +11,8 @@ public interface CustomerService {
 	void update(CustomerEntity item);
 
 	void delete(CustomerEntity item);
+	
+	void delete(Long id);
 
 	void save(CustomerEntity item);
 	

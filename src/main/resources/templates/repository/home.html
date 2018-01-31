@@ -6,9 +6,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Project Management</title>
 
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+<script src="/js/ie-emulation-modes-warning.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/plugins/jquery.tmpl.min.js"></script>
+<script src="/js/plugins/toastr.min.js"></script>
+<script src="/js/customer/home.js"></script>
+
+
+
 <!-- CSS件 -->
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/css/customer/home.css" />
+<link rel="stylesheet" href="/css/plugins/toastr.min.css" />
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
@@ -35,7 +47,8 @@
 					<div class="panel-heading">库存展示</div>
 					<div class="panel-body">
 						<p>展示仓库存货数量，以及相关管理存货</p>
-						<button type="button" id="btnAddItem" class="btn btn-primary" data-toggle="modal">新增商品</button>
+						<button type="button" id="btnAddItem" class="btn btn-primary"
+							data-toggle="modal">新增商品</button>
 					</div>
 
 					<!-- Table -->
@@ -48,7 +61,7 @@
 								<th>库存</th>
 								<td width="200">操作</td>
 							</tr>
-						</thead>						
+						</thead>
 					</table>
 				</div>
 
@@ -86,14 +99,16 @@
 										<span class="col-sm-1"></span> <label for="sampleImage"
 											class="col-sm-2 control-label">示例图片</label>
 										<div class="file-loading">
-											<input id="sampleImage" name="sampleImage" data-toggle="tooltip" title="修改时若不更改图片，则可以不选图片" type="file"
+											<input id="sampleImage" name="sampleImage"
+												data-toggle="tooltip" title="修改时若不更改图片，则可以不选图片" type="file"
 												required="required" accept="image/*" />
 										</div>
 
 										<!-- 编辑时，展示原有图片 -->
-										<div id="originImage" style="display:none" class="col-xs-6 col-md-3">
-											<a href="#" class="thumbnail"> <img
-												src="#" alt="none" width="200" />
+										<div id="originImage" style="display: none"
+											class="col-xs-6 col-md-3">
+											<a href="#" class="thumbnail"> <img src="#" alt="none"
+												width="200" />
 											</a>
 										</div>
 									</div>
@@ -115,8 +130,7 @@
 
 									<!-- 隐藏属性 -->
 									<input type="hidden" id="actionType" name="actionType"
-										value="add" /> 
-									<input type="hidden" id="itemId" name="itemId"
+										value="add" /> <input type="hidden" id="itemId" name="itemId"
 										value="1" />
 
 								</form>
@@ -126,7 +140,7 @@
 					</div>
 				</div>
 				<!-- end of modal -->
-				
+
 			</div>
 		</div>
 	</div>
@@ -151,15 +165,6 @@
 	 </tr>
 	</script>
 
-
-
-	<script src="/js/jquery.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
-	<script src="/js/ie10-viewport-bug-workaround.js"></script>
-	<script src="/js/ie-emulation-modes-warning.js"></script>
-	<script src="/js/customer/home.js"></script>
-	<script src="/js/jquery.form.js"></script>
-	<script src="/js/plugins/jquery.tmpl.min.js"></script>
 
 	<!-- JS file -->
 	<script type="text/javascript">

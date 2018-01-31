@@ -1,3 +1,5 @@
+toastr.options.positionClass = 'toast-top-center';//提示框位置
+
 function initRepos() {
 	$.getJSON("/repos/list", function(json) {
 		$("#item-tmpl").tmpl(json).appendTo("#reposTable");
@@ -19,23 +21,19 @@ function ajax_submit() {
 		processData : false,
 		contentType : false,
 		beforeSend : function() {
-			$("#tip").html("<span style='color:blue'>正在处理...</span>");
+			toastr.success('正在处理...');
 			return true;
 		},
 		success : function(data) {
-
 			if (data != null) {
-
-				$("#tip").html("<span style='color:blueviolet'>上传成功！</span>");
-				alert("保存成功!");
+				toastr.success('保存成功!');
 				setTimeout(location.reload(), 2000);
 			} else {
-				$("#tip").html("<span style='color:red'>失败，请重试</span>");
-				alert('操作失败');
+				toastr.error('失败，请重试');	
 			}
 		},
 		error : function() {
-			alert('请求出错');
+			toastr.error('失败，请重试');	
 		},
 		complete : function() {
 		}
@@ -53,19 +51,22 @@ $(function() {
 		var toDel = $(this).parents("tr");
 		var itemId = $(this).parents("td").find("input").val();
 		
-		alert("待删除id:" + itemId);
-		
 		$.ajax({
-			url : "/deleteItem",
-			data : "itemId="+itemId,
-			type : "post",
+			url : "/deleteItem/"+itemId,
+//			data : "itemId="+itemId,
+			type : "GET",
 			processData : false,			
 			contentType: "application/x-www-form-urlencoded",
 			success : function(data) {
-				toDel.remove();
+				if(data == "success") {
+					toDel.remove();
+					toastr.success('删除成功');	
+				} else {
+					toastr.error(data);	
+				}
 			},
 			error : function() {
-				alert('删除出错');
+				toastr.error('删除出错');	
 			}
 		});
 	});

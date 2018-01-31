@@ -20,6 +20,8 @@ public interface ItemService {
 	
 	void delete(ItemEntity item);
 	
+	void delete(Long id);
+	
 	void save(ItemEntity item);
 	
 	ItemEntity findOne(Long id);

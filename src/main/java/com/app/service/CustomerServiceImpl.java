@@ -41,4 +41,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepository.findOne(id);
 	}
 
+	@Override
+	public void delete(Long id) {
+		customerRepository.delete(id);		
+	}
+
 }
