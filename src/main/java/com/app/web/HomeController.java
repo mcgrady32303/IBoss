@@ -3,6 +3,8 @@ package com.app.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.app.utils.CurrentUserUtils;
+
 @Controller
 @RequestMapping("/repository/home/")
 public class HomeController {
@@ -28,5 +30,11 @@ public class HomeController {
 	@RequestMapping("adduser")
 	public String addUser(){
 		return "repository/customer/customer-manage";
+	}
+	
+	@RequestMapping("logout")
+	public String logout() {
+		CurrentUserUtils.getInstance().serUser(null);
+		return "login";
 	}
 }

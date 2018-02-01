@@ -85,8 +85,16 @@ function listOrderByDate(date) {
 
 function listCurOrderList() {
 	var today = new Date();
-	listOrderByDate(today.getFullYear() + "-" + today.getMonth() + 1 + "-"
-			+ today.getDate());
+	var year = today.getFullYear();
+	var month = 1 + parseInt(today.getMonth());
+	if(month<10) {
+		month = '0' + month;
+	}
+	var day = today.getDate();
+	if(day < 10) {
+		day = '0' +day
+	}
+	listOrderByDate(year + "-" + month + "-" + day);
 }
 
 //查询订单总入口
