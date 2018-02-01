@@ -41,30 +41,7 @@
 			<!-- center content -->
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                                                  
-                <div class="panel panel-default">
-					<!-- Default panel contents -->
-					<div class="panel-heading">库存展示</div>
-					<div class="panel-body">
-						<p>展示仓库存货数量，以及相关管理存货</p>
-						<button type="button" id="btnAddItem" class="btn btn-primary"
-							data-toggle="modal">新增商品</button>
-					</div>
-
-					<!-- Table -->
-					<table id="reposTable" class="table">
-						<thead>
-							<tr>
-								<th>序号</th>
-								<th>示例图</th>
-								<th>名称</th>
-								<th>库存</th>
-								<td width="200">操作</td>
-							</tr>
-						</thead>
-					</table>
-				</div>
-				
-				
+                <p> 敬請期待……</p>
 				
 			</div>
 		</div>
@@ -75,10 +52,7 @@
 		$(function() {
 			$('#advance-left li').removeClass("active").eq(0).prop('class',
 					'active');
-			$(".navbar-collapse li").on("click", function() {
-				$('.navbar-collapse li').removeClass("active");
-				$(this).parent().prop('class', 'active');
-			});
+			$('.navbar-collapse li').removeClass("active").eq(1).prop('class', 'active');
 		});
 	</script>
 </body>

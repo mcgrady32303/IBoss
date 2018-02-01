@@ -142,9 +142,58 @@
 				</div>
 				<!-- end of modal -->
 
+
+
+				<!-- =====入庫 Model===== -->
+				<div class="modal fade itemIncrease-modal-lg" tabindex="-1"
+					role="dialog" aria-labelledby="myLargeModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+								</button>
+								<h4 class="modal-title" id="myLargeModalLabel">材料入库</h4>
+							</div>
+							<div class="modal-body">
+
+								<!-- 材料名称 -->
+								<div class="form-group">
+									<span class="col-sm-1"></span> <label for="addedNum"
+										id="itemNameForIncrease" class="col-sm-2 control-label">材料名称</label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" id="addedNum"
+											placeholder="入库数量" name="addedNum" />
+									</div>
+								</div>
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">取消</button>
+									<button type="submit" class="btn btn-primary" id="increaseBtn">入库</button>
+									<span id="tip"> </span>
+								</div>
+
+								<!-- 隐藏属性 -->
+								<input type="hidden" id="hiddenItemId" name="hiddenItemId"
+									value="0" />
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- end of modal -->
+
 			</div>
 		</div>
 	</div>
+
+
+
+
+
 
 	<!-- ======Template===== -->
 	<script id="item-tmpl" type="text/x-jquery-tmpl"> 	
@@ -160,6 +209,7 @@
 		<td>${name}</td>
 		<td>${num}</td>
 		<td>
+			<button type="button" class="btn btn-default">入庫<input type="hidden" value="${id}"/></button>
 			<button type="button" class="btn btn-primary">Edit<input type="hidden" value="${id}"/></button>
 			<button type="button" class="btn btn-danger">Del</button>
 		</td>

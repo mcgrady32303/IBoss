@@ -42,6 +42,19 @@ public class ReposController {
 
 		return JSON.toJSONString(itemService.findAll());
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/repos/increaseItem/{itemId}/{addedNum}", method = RequestMethod.GET)
+	public String increaseItem(@PathVariable Long itemId, @PathVariable int addedNum) {
+
+		ItemEntity item = itemService.findOne(itemId);
+		item.setNum(item.getNum() + addedNum);
+		itemService.save(item);
+		
+		logger.info(itemId + "入庫：" + addedNum);
+
+		return "success";
+	}
 
 	@ResponseBody
 	@RequestMapping("/repos/list4Sale")

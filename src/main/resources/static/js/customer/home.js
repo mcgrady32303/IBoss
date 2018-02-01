@@ -96,5 +96,40 @@ $(function() {
 		$('.storage-modal-lg').modal("show");
 		// 提示不修改图片可以不再上传
 	});
+	
+	//点击入庫时的操作
+	$("#reposTable").on("click", ".btn-default",function() {
+		$("#itemNameForIncrease").text($(this).parents("td").prev().prev().text());
+		$("#hiddenItemId").val($(this).find("input").val());
+		$('.itemIncrease-modal-lg').modal("show");
+	});
+	
+	//確定入庫
+	$("#increaseBtn").on("click", function(){
+		var itemId = $("#hiddenItemId").val();
+		var addedNum = $("#addedNum").val();
+	
+		$.ajax({
+			url : "/repos/increaseItem/"+itemId+"/"+addedNum,
+//			data : "itemId="+itemId,
+			type : "GET",
+			processData : false,			
+			contentType: "application/x-www-form-urlencoded",
+			success : function(data) {
+				if(data == "success") {
+					toastr.success('入庫成功!');
+				} else {
+					toastr.error(data);	
+				}
+				setTimeout(location.reload(), 2000);
+				$('.itemIncrease-modal-lg').modal("hide");
+			},
+			error : function() {
+				toastr.error('入庫出错');
+				setTimeout(location.reload(), 2000);
+				$('.itemIncrease-modal-lg').modal("hide");
+			}
+		});
+	});
 
 });
