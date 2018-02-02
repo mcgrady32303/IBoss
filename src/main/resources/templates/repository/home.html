@@ -101,7 +101,7 @@
 										<div class="file-loading">
 											<input id="sampleImage" name="sampleImage"
 												data-toggle="tooltip" title="修改时若不更改图片，则可以不选图片" type="file"
-												required="required" accept="image/*" />
+												accept="image/*" />
 										</div>
 
 										<!-- 编辑时，展示原有图片 -->
@@ -118,7 +118,7 @@
 											class="col-sm-2 control-label">初始数量</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="initNum"
-												placeholder="初始数量" name="initNum" />
+												placeholder="初始数量" name="initNum" pattern="^[0-9]*$"/>
 										</div>
 									</div>
 									<div class="modal-footer">
@@ -209,7 +209,7 @@
 		<td>${name}</td>
 		<td>${num}</td>
 		<td>
-			<button type="button" class="btn btn-default">入庫<input type="hidden" value="${id}"/></button>
+			<button type="button" class="btn btn-default">入库<input type="hidden" value="${id}"/></button>
 			<button type="button" class="btn btn-primary">Edit<input type="hidden" value="${id}"/></button>
 			<button type="button" class="btn btn-danger">Del</button>
 		</td>

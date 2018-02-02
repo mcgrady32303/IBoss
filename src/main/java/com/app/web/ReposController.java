@@ -121,6 +121,9 @@ public class ReposController {
 		if (info.getSampleImage().isEmpty()) {
 			logger.info("文件为空！");
 			imageIndex = info.getOriginImageIndex();
+			if(info.getActionType().equals("add")) {
+				imageIndex = "defaultItem.jpg";
+			}
 		} else {
 			imageIndex = ImageSaveUtils
 					.saveImage(info.getSampleImage(), "item");

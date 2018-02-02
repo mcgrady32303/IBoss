@@ -132,7 +132,7 @@
 							<span class="col-sm-1"></span> <label for="totalPay"
 								class="col-sm-2 control-label">总价</label>
 							<div class="file-loading">
-								<input id="totalPay" name="totalPay" type="text" />
+								<input id="totalPay" name="totalPay" type="text" pattern="^[0-9]*$" />
 							</div>
 						</div>
 
@@ -233,7 +233,7 @@
 					</ul>
 				</div>
 			</td>
-			<td><input type="text" placeHolder="数量" required="required"/></td>
+			<td><input type="text" placeHolder="数量" required="required" pattern="^[0-9]*$"/></td>
 			<td><input type="text" placeHolder="单价" /></td>                     
 			<td><button type="button" class="btn btn-danger">删除</button></td>
 		</tr>

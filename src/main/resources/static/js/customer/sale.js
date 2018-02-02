@@ -148,48 +148,89 @@ function saveOrder() {
 	var size = itemList.size();
 	var order = {};
 	var orderId = $("#orderId").val();
-
+	var ptnInt = new RegExp("^[0-9]*$");
+	var ptnDouble = new RegExp("^[0-9]+[.]{1}[0-9]+$");
+	
 	order["id"] = orderId;
 	order["date"] = date;
 	order["customerId"] = customerId;
 	order["totalPay"] = totalPay;
 	order["payed"] = payed;
+	order["actionType"] = $("#actionType").val();
+	
+	if(date == "") {
+		toastr.error("请填写日期！");
+		return;
+	}
+	if(customerName == "") {
+		toastr.error("请选择客户！");
+		return;
+	}
+	
+	if(!ptnInt.test(totalPay) && !ptnDouble.test(totalPay)) {
+		toastr.error("总金额请输入数字！");
+		return false;
+	}
 
 	if (size == 0) {
 		toastr.error('订单详情为空,保存失败!');
 		return;
 	}
 
-	// TODO 后续需要增加检查
+	var checked = true;
 	itemList.each(function() {
 		var orderDetail = {};
 		var itemId = $(this).find("input:eq(0)").val();
 		var orderDetailId = $(this).find("input:eq(1)").val();
+		var tmpNum =  $(this).find("td>input").eq(0).val();
+		var tmpPrice = $(this).find("td>input").eq(1).val();
 		orderDetail["id"] = orderDetailId;
 		orderDetail["itemId"] = itemId;
-		orderDetail["num"] = $(this).find("td>input").eq(0).val();
-		orderDetail["price"] = $(this).find("td>input").eq(1).val();
-
+		orderDetail["num"] = tmpNum;
+		orderDetail["price"] = tmpPrice;
+		
+		if(!ptnInt.test(tmpNum)) {
+			checked = false;
+			return;
+		}
+		
+		if(itemId=="0") {
+			checked = false;
+			return;
+		}
+		
+		if(!ptnInt.test(tmpPrice) && !ptnDouble.test(tmpPrice)) {
+			checked = false;
+			return;
+		}
+		
 		orderList.push(orderDetail);
 	});
+	
+	if(!checked) {
+		toastr.error("材料输入存在错误，请修正！");
+		return;
+	}
 
 	order["orderList"] = orderList;
 
 	$.ajax({
-		url : "/saveOrder",
+		url : "/sale/saveOrder",
 		data : JSON.stringify(order),
 		type : "post",
 		processData : false,
 		contentType : 'application/json;charset=utf-8',
 		success : function(data) {
 			toastr.info('保存成功!');	
-			setTimeout(location.reload(), 2000);
+			setTimeout(location.reload(), 2000);			
 			$(".sale-modal-lg").modal("hide");
+			clearModalData();
 		},
 		error : function() {
 			toastr.error('保存失败!');	
 			setTimeout(location.reload(), 2000);
 			$(".sale-modal-lg").modal("hide");
+			clearModalData();
 		}
 	});
 }

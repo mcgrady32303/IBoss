@@ -38,17 +38,27 @@ public class SaleController {
 	private OrderDetailService orderDetailService;
 
 	@ResponseBody
-	@RequestMapping(value = "/saveOrder", method = RequestMethod.POST)
+	@RequestMapping(value = "/sale/saveOrder", method = RequestMethod.POST)
 	public String saveOrder(@RequestBody OrderHeadEntity order) {
 
-		logger.debug("to save order entity:" + JSON.toJSONString(order));
+		logger.warn("to save order entity:" + JSON.toJSONString(order));
 
 		for (OrderDetailEntity ode : order.getOrderList()) {
 			ode.setOrderHead(order);
 		}
 
 		orderService.save(order);
-
+		
+		//仅针对add模式更新库存材料数目,edit模式不做更新,需要手工调整库存
+		if("add".equals(order.getActionType())) {
+			for(OrderDetailEntity ode : order.getOrderList()) {
+				ItemEntity ie = itemService.findOne(ode.getItemId());
+				ie.setNum(ie.getNum() - ode.getNum());
+				itemService.save(ie);
+				logger.info("itemid :" + ode.getItemId() + " 入库："+ ode.getNum());
+			}
+		}
+		
 		return "test";
 	}
 
