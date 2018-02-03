@@ -77,7 +77,7 @@ $(function() {
 		$("#initNum").val("");
 		$("#goodName").attr("placeHolder","商品名称");
 		$("#initNum").attr("placeHolder","初始数量");
-		$("#sampleImage").attr("required", true);
+		//$("#sampleImage").attr("required", true);
 		$('.storage-modal-lg').modal("show");
 		
 	});

@@ -61,7 +61,7 @@ $(function() {
 		$("#customerName").attr("placeHolder", "客户名称");
 		$("#tel").attr("placeHolder", "电话");
 		$("#msg").attr("placeHolder", "备注");
-		$("#sampleImage").attr("required", true);
+		//$("#sampleImage").attr("required", true);
 		$('.customer-modal-lg').modal("show");
 	});
 
