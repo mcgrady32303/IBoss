@@ -15,10 +15,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ComponentScan("com.app")
 @EntityScan("com.app.entity")
 @EnableJpaRepositories("com.app.repository")
-public class WebAppConfig extends WebMvcConfigurerAdapter{
+public class WebAppConfig extends WebMvcConfigurerAdapter {
 //	@Autowired
 //	private Crawler crawler;
-		
+	
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(WebAppConfig.class);
 	}
@@ -36,6 +36,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
     	registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/repository/**");
     	registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/advance/**");
 	}
+
     
     /**
      * spring boot 定时任务

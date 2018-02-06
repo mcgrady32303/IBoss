@@ -81,6 +81,7 @@
 									<th>日期</th>
 									<th>客户</th>
 									<th>订单详情</th>
+									<th>总价</th>
 									<th>支付状态</th>
 									<th width="200">操作</th>
 								</tr>
@@ -134,6 +135,7 @@
 							<div class="file-loading">
 								<input id="totalPay" name="totalPay" type="text" pattern="^[0-9]*$" />
 							</div>
+							<input id="autoCalc" type="checkbox"/>自动计算
 						</div>
 
 						<!-- 是否已支付 -->
@@ -257,6 +259,7 @@
                                材料名称:${itemName} // 数量：${num} // 单价：${price}<br/>
           {{/each}}
         </td>
+        <td> ${totalPay} </td>
         <td>
             {{if payed == true}}
 					已支付

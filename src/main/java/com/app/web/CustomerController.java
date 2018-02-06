@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +32,8 @@ public class CustomerController {
 	private CustomerService customerService;
 	@Autowired
 	private OrderService orderService;
+	@Value("${web.upload-path}")
+	private String path;
 
 	@ResponseBody
 	@RequestMapping("/getAllCustomers")
@@ -54,11 +57,12 @@ public class CustomerController {
 		if (info.getSampleImage().isEmpty()) {
 			logger.info("文件为空！");
 			imageIndex = info.getOriginImageIndex();
-			if(info.getActionType().equals("add")) {
-				imageIndex = "defaultCustomer.jpg";
+			if (info.getActionType().equals("add")) {
+				imageIndex = "images/defaultCustomer.jpg";
 			}
 		} else {
-			imageIndex = ImageSaveUtils.saveImage(info.getSampleImage(), "customer");
+			imageIndex = ImageSaveUtils.getInstance().saveImage(
+					info.getSampleImage(), "customer", path);
 		}
 
 		System.out.println("msg： " + info.getMsg());
@@ -74,29 +78,30 @@ public class CustomerController {
 
 		return "保存成功！";
 	}
-	
+
 	@RequestMapping(value = "/deleteCustomer")
 	@ResponseBody
 	public String deleteItem(HttpServletRequest request,
 			HttpServletResponse response) {
-		
-		System.out.println("to delete id : " + request.getParameter("customerId"));
+
+		System.out.println("to delete id : "
+				+ request.getParameter("customerId"));
 
 		long customerId = Long.valueOf(request.getParameter("customerId"));
 		CustomerEntity customer = new CustomerEntity();
 		customer.setId(customerId);
 		customerService.delete(customer);
-		
+
 		return "";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/deleteCustomer/{id}", method = RequestMethod.GET)
 	public String deleteItem(@PathVariable Long id) {
 
 		logger.info("to delete id : " + id);
-		
-		if(hasUsedByOrder(id)) {
+
+		if (hasUsedByOrder(id)) {
 			logger.error("被删除客户仍被订单使用,不能删除!");
 			return "被删除客户仍被订单使用,不能删除!";
 		}
@@ -105,10 +110,10 @@ public class CustomerController {
 
 		return "success";
 	}
-	
+
 	private boolean hasUsedByOrder(Long id) {
 		List<OrderHeadEntity> list = orderService.findALLByCustomerId(id);
-		
+
 		return !list.isEmpty();
 	}
 

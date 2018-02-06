@@ -36,7 +36,7 @@ public class SaleController {
 
 	@Autowired
 	private OrderDetailService orderDetailService;
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/sale/saveOrder", method = RequestMethod.POST)
 	public String saveOrder(@RequestBody OrderHeadEntity order) {

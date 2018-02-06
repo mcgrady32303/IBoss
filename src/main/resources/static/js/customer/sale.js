@@ -139,6 +139,7 @@ function actionAfterSuccess(data) {
 // 保存订单
 function saveOrder() {
 	var date = $("#orderDate").val();
+	var autoCalc = $("#autoCalc").prop("checked");
 	var customerName = $("#customer").val();
 	var customerId = $("#customerId").val();
 	var totalPay = $("#totalPay").val();
@@ -154,7 +155,7 @@ function saveOrder() {
 	order["id"] = orderId;
 	order["date"] = date;
 	order["customerId"] = customerId;
-	order["totalPay"] = totalPay;
+//	order["totalPay"] = totalPay;
 	order["payed"] = payed;
 	order["actionType"] = $("#actionType").val();
 	
@@ -167,17 +168,14 @@ function saveOrder() {
 		return;
 	}
 	
-	if(!ptnInt.test(totalPay) && !ptnDouble.test(totalPay)) {
-		toastr.error("总金额请输入数字！");
-		return false;
-	}
-
 	if (size == 0) {
 		toastr.error('订单详情为空,保存失败!');
 		return;
 	}
 
 	var checked = true;
+	var calTotalPrice = 0;
+	//对订单每个材料详情逐一处理
 	itemList.each(function() {
 		var orderDetail = {};
 		var itemId = $(this).find("input:eq(0)").val();
@@ -189,20 +187,17 @@ function saveOrder() {
 		orderDetail["num"] = tmpNum;
 		orderDetail["price"] = tmpPrice;
 		
-		if(!ptnInt.test(tmpNum)) {
+		if(!ptnInt.test(tmpNum) || itemId=="0") {
 			checked = false;
 			return;
-		}
-		
-		if(itemId=="0") {
-			checked = false;
-			return;
-		}
+		}		
 		
 		if(!ptnInt.test(tmpPrice) && !ptnDouble.test(tmpPrice)) {
 			checked = false;
 			return;
 		}
+		
+		calTotalPrice += tmpNum * tmpPrice;
 		
 		orderList.push(orderDetail);
 	});
@@ -211,7 +206,22 @@ function saveOrder() {
 		toastr.error("材料输入存在错误，请修正！");
 		return;
 	}
-
+	
+	//自动计算
+	if(autoCalc) {
+		order["totalPay"] = calTotalPrice;
+		$("#totalPay").val(calTotalPrice);
+	} else {  //否则检查填入数字是否符合格式，并不检查   总价==明细之和？
+		
+		if(!ptnInt.test(totalPay) && !ptnDouble.test(totalPay)) {
+			toastr.error("总金额请输入数字！");
+			return ;
+		}
+		
+		order["totalPay"] = totalPay;
+		
+	}
+	
 	order["orderList"] = orderList;
 
 	$.ajax({

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +34,8 @@ public class ReposController {
 	private ItemService itemService;
 	@Autowired
 	private OrderDetailService orderDetailService;
+	@Value("${web.upload-path}")
+	private String path;
 
 	@ResponseBody
 	@RequestMapping("/repos/list")
@@ -42,15 +45,16 @@ public class ReposController {
 
 		return JSON.toJSONString(itemService.findAll());
 	}
-	
+
 	@ResponseBody
-	@RequestMapping(value="/repos/increaseItem/{itemId}/{addedNum}", method = RequestMethod.GET)
-	public String increaseItem(@PathVariable Long itemId, @PathVariable int addedNum) {
+	@RequestMapping(value = "/repos/increaseItem/{itemId}/{addedNum}", method = RequestMethod.GET)
+	public String increaseItem(@PathVariable Long itemId,
+			@PathVariable int addedNum) {
 
 		ItemEntity item = itemService.findOne(itemId);
 		item.setNum(item.getNum() + addedNum);
 		itemService.save(item);
-		
+
 		logger.info(itemId + "入庫：" + addedNum);
 
 		return "success";
@@ -83,14 +87,14 @@ public class ReposController {
 
 		return "";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/deleteItem/{id}", method = RequestMethod.GET)
 	public String deleteItem(@PathVariable Long id) {
 
 		logger.info("to delete id : " + id);
-		
-		if(hasUsedByOrder(id)) {
+
+		if (hasUsedByOrder(id)) {
 			logger.error("被删除材料仍被订单使用,不能删除!");
 			return "被删除材料仍被订单使用,不能删除!";
 		}
@@ -99,7 +103,6 @@ public class ReposController {
 
 		return "success";
 	}
-
 
 	@ResponseBody
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -121,16 +124,16 @@ public class ReposController {
 		if (info.getSampleImage().isEmpty()) {
 			logger.info("文件为空！");
 			imageIndex = info.getOriginImageIndex();
-			if(info.getActionType().equals("add")) {
-				imageIndex = "defaultItem.jpg";
+			if (info.getActionType().equals("add")) {
+				imageIndex = "images/defaultItem.jpg";
 			}
 		} else {
-			imageIndex = ImageSaveUtils
-					.saveImage(info.getSampleImage(), "item");
+			imageIndex = ImageSaveUtils.getInstance().saveImage(
+					info.getSampleImage(), "item", path);
 		}
 
 		ItemEntity item = new ItemEntity();
-		item.setName(info.getGoodName());	
+		item.setName(info.getGoodName());
 		item.setPictureIndex(imageIndex);
 		item.setNum(info.getInitNum());
 		if (info.getActionType().equals("edit")) {
@@ -140,10 +143,10 @@ public class ReposController {
 
 		return "保存成功！";
 	}
-	
+
 	private boolean hasUsedByOrder(Long id) {
 		List<OrderDetailEntity> list = orderDetailService.findByItemId(id);
-		
+
 		return !list.isEmpty();
 	}
 }
