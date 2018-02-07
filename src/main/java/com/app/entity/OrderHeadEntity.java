@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -18,7 +19,8 @@ import javax.persistence.Transient;
  * 
  */
 @Entity
-@Table(name = "orderhead")
+@Table(name = "orderhead",
+       indexes={@Index(name="date_index", columnList="date")})
 public class OrderHeadEntity extends BaseEntity {
 
 	private String date;
