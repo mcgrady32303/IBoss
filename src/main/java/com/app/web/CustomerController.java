@@ -110,7 +110,7 @@ public class CustomerController {
 
 		return "success";
 	}
-
+	
 	private boolean hasUsedByOrder(Long id) {
 		List<OrderHeadEntity> list = orderService.findALLByCustomerId(id);
 

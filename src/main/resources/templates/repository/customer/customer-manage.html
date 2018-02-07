@@ -37,8 +37,8 @@
 					<div class="panel-heading">客户管理</div>
 					<div class="panel-body">
 						<p>展示客户信息，以及相关管理</p>
-						<button type="button" id="btnAddCustomer" class="btn btn-primary" data-toggle="modal"
-							data-target="#">新增客户</button>
+						<button type="button" id="btnAddCustomer" class="btn btn-primary"
+							data-toggle="modal" data-target="#">新增客户</button>
 					</div>
 
 					<!-- Table -->
@@ -52,7 +52,7 @@
 								<th>备注</th>
 								<th width="200">操作</th>
 							</tr>
-						</thead>						
+						</thead>
 					</table>
 				</div>
 			</div>
@@ -74,7 +74,8 @@
 				<div class="modal-body">
 					<form class="form-horizontal" role="form" action="/saveCustomer"
 						method="post" onsubmit="return ajax_submit()" id="customerInfo"
-						name="customerInfo" enctype="multipart/form-data" autocomplete="off">
+						name="customerInfo" enctype="multipart/form-data"
+						autocomplete="off">
 						<!-- 客户名称 -->
 						<div class="form-group">
 							<span class="col-sm-1"></span> <label for="customerName"
@@ -130,8 +131,8 @@
 						<!-- 隐藏属性 -->
 						<input type="hidden" id="actionType" name="actionType" value="add" />
 						<input type="hidden" id="customerId" name="customerId" value="1" />
-						 <input type="hidden" id="originImageIndex"
-										name="originImageIndex" value="#" />
+						<input type="hidden" id="originImageIndex" name="originImageIndex"
+							value="#" />
 
 					</form>
 				</div>
@@ -140,6 +141,37 @@
 		</div>
 	</div>
 	<!-- end of modal -->
+
+
+	<!-- ===== Customer Detail Model===== -->
+	<div class="modal fade detail-modal-lg" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myLargeModalLabel">客户详情</h4>
+				</div>
+				<div class="modal-body">
+					<!-- Table -->
+					<table class="table" id="customerDetailTable">
+						<thead>
+							<tr>
+								<th>姓名</th>
+								<th>订单总数</th>
+								<th>总金额</th>
+								<th>欠款总数</th>
+							</tr>
+						</thead>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end of detail modal -->
 
 	<!-- ======Template===== -->
 	<script id="customer-tmpl" type="text/x-jquery-tmpl">     	
@@ -162,6 +194,17 @@
 	</tr>
 	</script>
 
+
+	<!-- ======Template===== -->
+	<script id="customer-detail-tmpl" type="text/x-jquery-tmpl">     	
+	<tr>		
+		<td>${name}</td>
+		<td>${orderNum}</td>
+		<td>${totalToPay}</td>
+		<td>${totalUnpay}</td>
+	</tr>
+	</script>
+
 	<script src="/js/jquery.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="/js/jquery.form.js"></script>
@@ -170,5 +213,13 @@
 	<script src="/js/customer/customer.js"></script>
 	<script src="/js/ie10-viewport-bug-workaround.js"></script>
 	<script src="/js/ie-emulation-modes-warning.js"></script>
+
+	<!-- JS file -->
+	<script type="text/javascript">
+		$(function() {
+			$('#home-left li').removeClass("active").eq(2).prop('class',
+					'active');
+		});
+	</script>
 </body>
 </html>

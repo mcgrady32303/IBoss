@@ -17,6 +17,7 @@ import com.app.entity.CustomerEntity;
 import com.app.entity.ItemEntity;
 import com.app.entity.OrderDetailEntity;
 import com.app.entity.OrderHeadEntity;
+import com.app.pojo.CustomerSimpleDTO;
 import com.app.service.CustomerService;
 import com.app.service.ItemService;
 import com.app.service.OrderDetailService;
@@ -92,6 +93,50 @@ public class SaleController {
 	public String listOrderByCustomer(@PathVariable Long customerId) {
 		logger.debug("根据客户id查询:" + customerId);
 
+//		List<OrderHeadEntity> headList = orderService
+//				.findALLByCustomerId(customerId);
+//
+//		if (!headList.isEmpty()) {
+//			for (OrderHeadEntity oneOrder : headList) { // 将customer名字查询出来,并赋值到订单body中
+//				assembleOrder(oneOrder);
+//			}
+//		}
+
+		return JSON.toJSONString(getOrderByCustmerId(customerId));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/sale/getCustomerDetail/{id}", method = RequestMethod.GET)
+	public String getCustomerDetail(@PathVariable Long id) {
+
+		double totalToPay = 0.0;
+		double totalUnpay = 0.0;
+		CustomerSimpleDTO detail = new CustomerSimpleDTO();
+		List<OrderHeadEntity> list =getOrderByCustmerId(id);
+        if(list.isEmpty()) {
+        	 detail.setName("没有订单");
+        	return JSON.toJSONString(detail);
+        }
+        detail.setName(list.get(0).getCustomerName());
+        detail.setOrderNum(list.size() + 1);
+        for(OrderHeadEntity ohe: list) {
+        	totalToPay += ohe.getTotalPay();
+        	if(!ohe.isPayed()) {
+        		totalUnpay += ohe.getTotalPay();
+        	}
+        }
+        detail.setTotalToPay(totalToPay);
+        detail.setTotalUnpay(totalUnpay);
+		
+		return JSON.toJSONString(detail);
+	}
+	
+	/**
+	 * 根据id获取所有订单，供其他方法公用
+	 * @param customerId
+	 * @return
+	 */
+	public List<OrderHeadEntity> getOrderByCustmerId(Long customerId) {
 		List<OrderHeadEntity> headList = orderService
 				.findALLByCustomerId(customerId);
 
@@ -100,8 +145,9 @@ public class SaleController {
 				assembleOrder(oneOrder);
 			}
 		}
-
-		return JSON.toJSONString(headList);
+		
+		return headList;
+		
 	}
 
 	@ResponseBody

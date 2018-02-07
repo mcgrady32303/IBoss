@@ -57,18 +57,20 @@
 								<label>日期</label>
 							</div>
 							<div class="col-md-2">
-								<input id="queryDate" name="queryDate" type="date" placeHolder="选择日期"/>
+								<input id="queryDate" name="queryDate" type="date"
+									placeHolder="选择日期" />
 							</div>
 							<div class="col-md-1">
 								<label>客户名字</label>
 							</div>
 							<div class="col-md-2">
-								<input id="queryCustomer" name="queryCustomer" type="text" placeHolder="选择客户"/>
-								<input type="hidden" id="queryCustomerId" value="-1"/>
+								<input id="queryCustomer" name="queryCustomer" type="text"
+									placeHolder="选择客户" /> <input type="hidden" id="queryCustomerId"
+									value="-1" />
 							</div>
-						    <div class="col-md-1"></div>
-							<div class="col-md-2">									
-									<button id="querySubmit" class="btn btn-default">查询</button>
+							<div class="col-md-1"></div>
+							<div class="col-md-2">
+								<button id="querySubmit" class="btn btn-default">查询</button>
 							</div>
 						</div>
 
@@ -87,7 +89,8 @@
 								</tr>
 							</thead>
 						</table>
-						<a href="#" id="emptytTip" data-toggle="tooltip" data-placement="bottom"  title="无数据"></a>
+						<a href="#" id="emptytTip" data-toggle="tooltip"
+							data-placement="bottom" title="无数据"></a>
 					</div>
 				</div>
 			</div>
@@ -133,9 +136,10 @@
 							<span class="col-sm-1"></span> <label for="totalPay"
 								class="col-sm-2 control-label">总价</label>
 							<div class="file-loading">
-								<input id="totalPay" name="totalPay" type="text" pattern="^[0-9]*$" />
+								<input id="totalPay" name="totalPay" type="text"
+									pattern="^[0-9]*$" />
 							</div>
-							<input id="autoCalc" type="checkbox"/>自动计算
+							<input id="autoCalc" type="checkbox" />自动计算
 						</div>
 
 						<!-- 是否已支付 -->
@@ -143,8 +147,9 @@
 							<span class="col-sm-1"></span> <label for="isPayed"
 								class="col-sm-2 control-label">已付款</label>
 							<div class="file-loading">
-								<input type="radio" id="hasPayed" name="isPayed" value="1" checked="true">是</input>
-								<input type="radio" id="notPayed" name="isPayed" value="0">否</input>
+								<input type="radio" id="hasPayed" name="isPayed" value="1"
+									checked="true">是</input> <input type="radio" id="notPayed"
+									name="isPayed" value="0">否</input>
 							</div>
 						</div>
 
@@ -163,11 +168,10 @@
 					</div>
 
 					<button type="button" class="btn btn-primary" id="addItem">增加一行材料</button>
-					<span id="hiddenGroup"> 
-					   <input type="hidden" id="customerId" value="0" />
-					   <!-- add or edit 模式  -->
-					   <input type="hidden" id="actionType" value="add" /> 
-					   <input type="hidden" id="orderId" value="0" />
+					<span id="hiddenGroup"> <input type="hidden" id="customerId"
+						value="0" /> <!-- add or edit 模式  --> <input type="hidden"
+						id="actionType" value="add" /> <input type="hidden" id="orderId"
+						value="0" />
 					</span>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -186,7 +190,7 @@
 	<!-- ===== select customer Modal=====  -->
 	<div class="modal fade costumer-modal-lg" tabindex="-1" role="query"
 		aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<input type="hidden" value="query"/>
+		<input type="hidden" value="query" />
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -275,5 +279,12 @@
 	</script>
 
 
+	<!-- JS file -->
+	<script type="text/javascript">
+		$(function() {
+			$('#home-left li').removeClass("active").eq(1).prop('class',
+					'active');
+		});
+	</script>
 </body>
 </html>

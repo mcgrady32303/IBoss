@@ -112,6 +112,13 @@ $(function() {
 
 	// 点击某一个客户的详情
 	$("#customerTable").on("click", ".btn-link", function() {
-		// TODO
+		//先清理
+		$("#customerDetailTable tr:gt(0)").remove();
+		
+		var customerId = $(this).parents("td").find("input").val();
+		$.getJSON("/sale/getCustomerDetail/" + customerId, function(json) {
+			$("#customer-detail-tmpl").tmpl(json).appendTo("#customerDetailTable");
+		});
+		$('.detail-modal-lg').modal("show");
 	});
 });

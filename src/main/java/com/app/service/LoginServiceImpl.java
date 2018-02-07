@@ -11,7 +11,7 @@ import com.app.utils.ServiceException;
 
 /**
  * 登录信息
- * @author lance
+ * @author fyi
  */
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -19,13 +19,13 @@ public class LoginServiceImpl implements LoginService {
 	private UserRepository userRepository;
 	/**
 	 * 用户登录
-	 * @author lance
+	 * @author fyi
 	 * 2014-6-11下午11:26:05
 	 * @param user
 	 * @return
 	 */
 	public UserEntity login(UserEntity user) {
-		if(StringUtils.isBlank(user.getEmail())) {
+		if(StringUtils.isBlank(user.getName())) {
 			throw new ServiceException("用户名不能为空");
 		}
 		
@@ -33,7 +33,7 @@ public class LoginServiceImpl implements LoginService {
 			throw new ServiceException("密码不能为空");
 		}
 		
-		UserEntity userEntity = userRepository.findByEmail(user.getEmail());
+		UserEntity userEntity = userRepository.findByName(user.getName());
 		if(null == userEntity){
 			throw new ServiceException("用户名不存在");
 		}
