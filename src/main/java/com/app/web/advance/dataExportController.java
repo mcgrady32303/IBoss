@@ -8,12 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,6 @@ import com.app.entity.CustomerEntity;
 import com.app.entity.ItemEntity;
 import com.app.entity.OrderDetailEntity;
 import com.app.entity.OrderHeadEntity;
-import com.app.pojo.CustomerSimpleDTO;
 import com.app.service.CustomerService;
 import com.app.service.ItemService;
 import com.app.service.OrderService;
@@ -38,9 +35,6 @@ import com.app.service.OrderService;
 public class dataExportController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-	private List<String> head = new ArrayList<String>(12);
-	private List<String> end = new ArrayList<String>(12);
 
 	private List<ItemEntity> items;
 
@@ -66,63 +60,6 @@ public class dataExportController {
 	@RequestMapping("other")
 	public String other() {
 		return "repository/advance/other";
-	}
-
-	@ResponseBody
-	@RequestMapping(value = "export/all1", method = RequestMethod.GET)
-	public void exportAll(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {// ,@RequestParam
-																// String
-																// startTime,
-		// @RequestParam String endTime) {
-		List<CustomerSimpleDTO> dataset = new ArrayList<CustomerSimpleDTO>();
-		String[] headers = { "姓名", "总金额", "未付金额" };// 导出的Excel头部，这个要根据自己项目改一下
-
-		CustomerSimpleDTO csd1 = new CustomerSimpleDTO();
-		CustomerSimpleDTO csd2 = new CustomerSimpleDTO();
-
-		csd1.setName("111");
-		csd2.setName("222");
-		dataset.add(csd1);
-		dataset.add(csd2);
-
-		// 声明一个工作薄
-		HSSFWorkbook workbook = new HSSFWorkbook();
-		// 生成一个表格
-		HSSFSheet sheet = workbook.createSheet();
-		// 设置表格默认列宽度为15个字节
-		sheet.setDefaultColumnWidth((short) 18);
-		HSSFRow row = sheet.createRow(0);
-		for (short i = 0; i < headers.length; i++) {
-			HSSFCell cell = row.createCell(i);
-			HSSFRichTextString text = new HSSFRichTextString(headers[i]);
-			cell.setCellValue(text);
-		}
-
-		int index = 0;
-		for (CustomerSimpleDTO csd : dataset) {
-			index++;
-			HSSFRow row1 = sheet.createRow(index);
-
-			HSSFCell cell0 = row1.createCell(0);
-			HSSFRichTextString richString0 = new HSSFRichTextString(
-					csd.getName());
-			HSSFFont font0 = workbook.createFont();
-			font0.setColor(HSSFColor.BLUE.index);// 定义Excel数据颜色
-			richString0.applyFont(font0);
-			cell0.setCellValue(richString0);
-
-			HSSFCell cell1 = row1.createCell(1);
-			cell1.setCellValue(csd.getTotalToPay());
-
-			HSSFCell cell2 = row1.createCell(2);
-			cell2.setCellValue(csd.getTotalUnpay());
-		}
-		response.setContentType("application/octet-stream");
-		response.setHeader("Content-disposition",
-				"attachment;filename=test.xls");// 默认Excel名称
-		response.flushBuffer();
-		workbook.write(response.getOutputStream());
 	}
 
 	@ResponseBody
@@ -233,22 +170,6 @@ public class dataExportController {
 
 	}
 
-	private List<OrderHeadEntity> listAllOrderByDateRange(String start,
-			String end) {
-
-		List<OrderHeadEntity> headList = orderService.findALLBetweenDate(start,
-				end);
-
-		if (!headList.isEmpty()) {
-			for (OrderHeadEntity oneOrder : headList) { // 将customer名字查询出来,并赋值到订单body中
-				assembleOrder(oneOrder);
-			}
-		}
-
-		return headList;
-
-	}
-
 	private void assembleOrder(OrderHeadEntity order) {
 		CustomerEntity ce = customerService.findOne(order.getCustomerId());
 		if (ce != null) {
@@ -268,12 +189,5 @@ public class dataExportController {
 		}
 	}
 
-	private void generateHeadAndEnd(String year) {
-		for (int i = 1; i <= 12; i++) {
-			head.add(year + "-" + (i > 9 ? "" : "-0") + i + "-01");
-			end.add(year + "-" + (i > 9 ? "" : "-0") + i + "31");
-		}
-
-	}
 
 }

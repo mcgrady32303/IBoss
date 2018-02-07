@@ -53,8 +53,17 @@ function drawYearlyTrendChart() {
 	json.tooltip = tooltip;
 	json.legend = legend;
 	json.series = series;
+	
+	$.getJSON("/report/saleVolume", function(data) {
+		alert(data);
+		alert(JSON.stringify(data));
+		series[0].data = data;
+		json.series = series;
+		$('#container1').highcharts(json);
+		
+	});
 
-	$('#container1').highcharts(json);
+	
 }
 
 $(function() {
