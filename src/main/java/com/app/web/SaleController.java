@@ -121,8 +121,8 @@ public class SaleController {
         detail.setOrderNum(list.size() + 1);
         for(OrderHeadEntity ohe: list) {
         	totalToPay += ohe.getTotalPay();
-        	if(!ohe.isPayed()) {
-        		totalUnpay += ohe.getTotalPay();
+        	if(ohe.getPaymentStatus() != 0) {
+        		totalUnpay += ohe.getDebt();
         	}
         }
         detail.setTotalToPay(totalToPay);

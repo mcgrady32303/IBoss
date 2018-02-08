@@ -71,7 +71,7 @@ $(function() {
 				$("#actionType").val("edit");
 				$("#originImage img").attr("src",
 						originIndex);
-				$("#originImageIndex").val(originIndex.substring(8));
+				$("#originImageIndex").val(originIndex.substring(1));
 				$("#originImage").show();
 				$("#customerId").val($(this).find("input").val());
 				$("#sampleImage").attr("required", false);

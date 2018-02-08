@@ -13,12 +13,14 @@
 <script src="/js/jquery.form.js"></script>
 <script src="/js/plugins/jquery.tmpl.min.js"></script>
 <script src="/js/plugins/toastr.min.js"></script>
+<script src="/js/plugins/jquery.jedate.min.js"></script>
 
 
 <!-- CSS件 -->
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/css/customer/common.css" />
 <link rel="stylesheet" href="/css/plugins/toastr.min.css" />
+<link rel="stylesheet" href="/css/plugins/jedate.css" />
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
@@ -41,7 +43,20 @@
 			<!-- center content -->
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-				<a href="/advance/export/all" id="downloadAllLink">下载所有订单</a>
+				<div class="form-group">
+					<a href="/advance/export/all" id="downloadAllLink">下载所有订单</a> <br />
+					<a href="/advance/export/allDebt" id="downloadAllDebtLink">下载所有未支付订单</a>
+					<br />
+				</div>
+
+				<div class="form-group">
+					<label for="query">选择查询年份</label> <input class="workinput wicon"
+						id="year" />
+					<button type="button" class="btn btn-primary" id="queryBtn">确定</button>
+					<br /> <a href="/advance/export/all" id="downloadAllLinkYearly">下载该年度所有订单</a>
+					<br /> <a href="/advance/export/allDebt"
+						id="downloadAllDebtLinkYearly">下载该年度所有未支付订单</a>
+				</div>
 
 			</div>
 		</div>
@@ -54,8 +69,54 @@
 					'active');
 			$('.navbar-collapse li').removeClass("active").eq(1).prop('class',
 					'active');
-		});
 
+			$('#year').jeDate({
+				isinitVal : true,
+				format : 'YYYY'
+			});
+
+			
+			var queryYear = $("#year").val();
+			if ($("#year").val() == "") {
+				var today = new Date();
+				var year = today.getFullYear();
+				queryYear = year;
+			}
+			$("#downloadAllLinkYearly").prop("href",
+					"/advance/export/all/" + queryYear);
+			$("#downloadAllDebtLinkYearly").prop("href",
+					"/advance/export/allDebt/" + queryYear);
+
+			$("#downloadAllLinkYearly").text(
+					"下载" + queryYear + "年度所有订单");
+			$("#downloadAllDebtLinkYearly").text(
+					"下载" + queryYear + "年度所有未支付订单");
+			
+			
+			
+			$("#queryBtn").on(
+					"click",
+					function() {
+						
+						queryYear = $("#year").val();
+
+						if ($("#year").val() == "") {
+							var today = new Date();
+							var year = today.getFullYear();
+							queryYear = year;
+							toastr.info("没有选择年份，默认为" + queryYear);
+						}
+						$("#downloadAllLinkYearly").prop("href",
+								"/advance/export/all/" + queryYear);
+						$("#downloadAllDebtLinkYearly").prop("href",
+								"/advance/export/allDebt/" + queryYear);
+
+						$("#downloadAllLinkYearly").text(
+								"下载" + queryYear + "年度所有订单");
+						$("#downloadAllDebtLinkYearly").text(
+								"下载" + queryYear + "年度所有未支付订单");
+					});
+		});
 	</script>
 </body>
 </html>

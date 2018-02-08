@@ -11,6 +11,12 @@ public interface OrderService {
 	
 	Page<OrderHeadEntity> findAll(Integer page,Integer size);
 	
+	Page<OrderHeadEntity> findAllByYear(Integer page,Integer size, String year);
+	
+	Page<OrderHeadEntity> findAllHasDebt(Integer page,Integer size);
+	
+	Page<OrderHeadEntity> findAllHasDebtByYear(Integer page,Integer size, String year);
+	
 	void update(OrderHeadEntity order);
 
 	void delete(Long id);

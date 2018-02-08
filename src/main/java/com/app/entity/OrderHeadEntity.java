@@ -32,6 +32,16 @@ public class OrderHeadEntity extends BaseEntity {
 	
 	@Transient
 	private String actionType;
+	
+	private String receiptNo;
+
+	public String getReceiptNo() {
+		return receiptNo;
+	}
+
+	public void setReceiptNo(String receiptNo) {
+		this.receiptNo = receiptNo;
+	}
 
 	public String getActionType() {
 		return actionType;
@@ -42,11 +52,32 @@ public class OrderHeadEntity extends BaseEntity {
 	}
 
 	private double totalPay;
+	
+	//欠款（未支付时，debt=totalPay）
+	private double debt;
 
-	private boolean payed;
+	//{0:已支付，1:未支付，2:部分支付}
+	private int paymentStatus;
 
 	@OneToMany(mappedBy = "orderHead", cascade = CascadeType.ALL)
 	private List<OrderDetailEntity> orderList = new LinkedList<OrderDetailEntity>();
+
+	
+	public double getDebt() {
+		return debt;
+	}
+
+	public void setDebt(double debt) {
+		this.debt = debt;
+	}
+
+	public int getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(int paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
 
 	public String getDate() {
 		return date;
@@ -80,13 +111,6 @@ public class OrderHeadEntity extends BaseEntity {
 		this.totalPay = totalPay;
 	}
 
-	public boolean isPayed() {
-		return payed;
-	}
-
-	public void setPayed(boolean isPayed) {
-		this.payed = isPayed;
-	}
 
 	public List<OrderDetailEntity> getOrderList() {
 		return orderList;

@@ -1,16 +1,19 @@
 package com.app.web.advance;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +23,7 @@ import com.app.entity.CustomerEntity;
 import com.app.entity.ItemEntity;
 import com.app.entity.OrderDetailEntity;
 import com.app.entity.OrderHeadEntity;
+import com.app.pojo.Top10DebtDTO;
 import com.app.service.CustomerService;
 import com.app.service.ItemService;
 import com.app.service.OrderService;
@@ -33,8 +37,6 @@ public class reportController {
 	private List<String> head = new ArrayList<String>(12);
 	private List<String> end = new ArrayList<String>(12);
 
-	private List<ItemEntity> items;
-
 	@Autowired
 	private OrderService orderService;
 
@@ -43,21 +45,90 @@ public class reportController {
 
 	@Autowired
 	private ItemService itemService;
-	
-	
+
 	@ResponseBody
-	@RequestMapping(value = "saleVolume", method = RequestMethod.GET)
-	public String getSaleVolume() {
-		return getSaleVolumeByYear("2018");
+	@RequestMapping(value = "saleVolume/{year}", method = RequestMethod.GET)
+	public String getSaleVolume(@PathVariable String year) {
+		return getSaleVolumeByYear(year);
 	}
-	
+
+	@ResponseBody
+	@RequestMapping(value = "debtTop10/{year}", method = RequestMethod.GET)
+	public String getDebtTop10(@PathVariable String year) {
+		return getDebtTop10ByYear(year);
+	}
+
+	private String getDebtTop10ByYear(String year) {
+
+		Map<Long, Double> debtMap = new HashMap<Long, Double>();
+		boolean isLast = false;
+		int startPage = 0;
+		while (!isLast) {
+			List<OrderHeadEntity> headList = new ArrayList<OrderHeadEntity>();
+			isLast = listAllHasDebtOrderPageable(headList, startPage, 50, year);
+			startPage++;
+			for (OrderHeadEntity ohe : headList) {
+				if (debtMap.containsKey(ohe.getCustomerId())) {
+					Double oldVal = debtMap.get(ohe.getCustomerId());
+					oldVal += ohe.getDebt();
+					debtMap.put(ohe.getCustomerId(), oldVal);
+				} else {
+					debtMap.put(ohe.getCustomerId(), ohe.getDebt());
+				}
+			}
+		}
+
+		// 对map进行排序
+		List<Map.Entry<Long, Double>> list = new ArrayList<Map.Entry<Long, Double>>(
+				debtMap.entrySet());
+		Collections.sort(list, new MapValueComparator());
+
+		Top10DebtDTO top10 = new Top10DebtDTO();
+		int i = 0;
+		for (Map.Entry<Long, Double> mapping : list) {
+			System.out.println(mapping.getKey() + ":" + mapping.getValue());
+			String name = getCustomerName(mapping.getKey());
+			top10.addCustomerId(mapping.getKey());
+			top10.addDebt(mapping.getValue());
+			top10.addName(name);
+			i++;
+			if (i > 9)
+				break;
+		}
+
+		System.out.println(JSON.toJSONString(top10));
+		return JSON.toJSONString(top10);
+	}
+
+	private String getCustomerName(Long key) {
+		CustomerEntity ce = customerService.findOne(key);
+		return ce !=null ? ce.getName() : "没名字";
+	}
+
+	private boolean listAllHasDebtOrderPageable(List<OrderHeadEntity> headList,
+			Integer page, Integer size, String year) {
+		Page<OrderHeadEntity> orderList = orderService.findAllHasDebtByYear(
+				page, size, year);
+		for (OrderHeadEntity ohe : orderList.getContent()) {
+			assembleOrder(ohe);
+			headList.add(ohe);
+		}
+
+		logger.debug("size :" + orderList.getSize());
+		logger.debug("number :" + orderList.getNumberOfElements());
+
+		return size > orderList.getNumberOfElements();
+
+	}
+
 	private String getSaleVolumeByYear(String year) {
 		List<Double> saleVolume = new ArrayList<Double>(12);
 		generateHeadAndEnd(year);
-		for(int i = 0; i < 12; i++) {
+		for (int i = 0; i < 12; i++) {
 			Double monthToltal = 0.0;
-			List<OrderHeadEntity> orderList = listAllOrderByDateRange(head.get(0), end.get(i));
-			for(OrderHeadEntity ohe : orderList) {
+			List<OrderHeadEntity> orderList = listAllOrderByDateRange(
+					head.get(0), end.get(i));
+			for (OrderHeadEntity ohe : orderList) {
 				monthToltal += ohe.getTotalPay();
 			}
 			saleVolume.add(i, monthToltal);
@@ -108,6 +179,15 @@ public class reportController {
 			end.add(year + "-" + (i > 9 ? "" : "-0") + i + "31");
 		}
 
+	}
+
+	class MapValueComparator implements Comparator<Map.Entry<Long, Double>> {
+
+		@Override
+		public int compare(Entry<Long, Double> me1, Entry<Long, Double> me2) {
+
+			return me2.getValue().compareTo(me1.getValue());
+		}
 	}
 
 }

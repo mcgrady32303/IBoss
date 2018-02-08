@@ -65,8 +65,8 @@
 							</div>
 							<div class="col-md-2">
 								<input id="queryCustomer" name="queryCustomer" type="text"
-									placeHolder="选择客户" /> <input type="hidden" id="queryCustomerId"
-									value="-1" />
+									placeHolder="选择客户" /> <input type="hidden"
+									id="queryCustomerId" value="-1" />
 							</div>
 							<div class="col-md-1"></div>
 							<div class="col-md-2">
@@ -85,6 +85,8 @@
 									<th>订单详情</th>
 									<th>总价</th>
 									<th>支付状态</th>
+									<th>欠款</th>
+									<th>关联票据</th>
 									<th width="200">操作</th>
 								</tr>
 							</thead>
@@ -111,7 +113,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-horizontal" role="form" action="#" method="post"
-						id="order-form" style="height: 300px; overflow: auto;">
+						id="order-form" style="height: 600px;  overflow: auto;">
 
 						<!-- 订单日期 -->
 						<div class="form-group">
@@ -119,6 +121,16 @@
 								class="col-sm-2 control-label">订单日期</label>
 							<div class="file-loading">
 								<input id="orderDate" name="orderDate" type="date" />
+							</div>
+						</div>
+
+						<!-- 关联票据单号 -->
+						<div class="form-group">
+							<span class="col-sm-1"></span> <label for="receiptNo"
+								class="col-sm-2 control-label">收据单号</label>
+							<div class="file-loading">
+								<input id="receiptNo" name="receiptNo" type="text"
+									placeHolder="输入关联票据单号" />
 							</div>
 						</div>
 
@@ -145,11 +157,21 @@
 						<!-- 是否已支付 -->
 						<div class="form-group">
 							<span class="col-sm-1"></span> <label for="isPayed"
-								class="col-sm-2 control-label">已付款</label>
+								class="col-sm-2 control-label">支付状态</label>
 							<div class="file-loading">
-								<input type="radio" id="hasPayed" name="isPayed" value="1"
+								<input type="radio" id="hasPayed" name="isPayed" value="0"
 									checked="true">是</input> <input type="radio" id="notPayed"
-									name="isPayed" value="0">否</input>
+									name="isPayed" value="1">否</input> <input type="radio"
+									id="partPayed" name="isPayed" value="2">部分支付</input>
+							</div>
+						</div>
+
+						<!-- 欠款 -->
+						<div class="form-group">
+							<span class="col-sm-1"></span> <label for="debt"
+								class="col-sm-2 control-label">欠款</label>
+							<div class="file-loading">
+								<input id="debt" name="debt" placeHolder="部分支付时填入" type="text" disabled="true" />
 							</div>
 						</div>
 
@@ -202,13 +224,18 @@
 				<div class="modal-body">
 					<div class="form-horizontal" role="form" action="#" method="post"
 						id="order-form" style="height: 300px; overflow: auto;">
-
+						
+                         <input id="keyword" name="keyword" type="text"
+									placeHolder="输入客户关键字" />
+                         <button id="matchCustomerBtn" class="btn btn-default">查询</button>
+                         
 						<!-- Table -->
 						<table id="custmerList" class="table">
 							<thead>
 								<tr>
 									<th>操作</th>
-									<th>客戶名字</th>
+									<th>客户名字</th>
+									<th>电话</th>
 									<th>备注</th>
 								</tr>
 							</thead>
@@ -249,6 +276,7 @@
 	    <tr>									
 			<td><button type="button" class="btn btn-link">选择 <input type="hidden" value="${id}"/></button></td>
 			<td>${name}</td>
+            <td>${tel}</td>
 			<td>${msg}</td>	       	
 	    </tr>	
 	</script>
@@ -265,12 +293,16 @@
         </td>
         <td> ${totalPay} </td>
         <td>
-            {{if payed == true}}
+            {{if paymentStatus == 0}}
 					已支付
-			{{else payed == false}}
+			{{else paymentStatus == 1}}
 					未支付
+            {{else paymentStatus == 2}}
+                                                  部分支付
 			{{/if}}
 		</td>
+        <td>${debt}</td>
+        <td>${receiptNo}</td>
 		<td>			
 			<button type="button" class="btn btn-primary">Edit<input type="hidden" value="${id}"/></button>
 		    <button type="button" class="btn btn-danger">Del<input type="hidden" value="${id}"/></button>

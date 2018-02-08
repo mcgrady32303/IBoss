@@ -87,7 +87,8 @@ $(function() {
 		var originIndex = $(this).parents("tr").find("img").attr("src");
 		$("#actionType").val("edit");
 		$("#originImage img").attr("src", originIndex);
-		$("#originImageIndex").val(originIndex.substring(8));
+//		$("#originImageIndex").val(originIndex.substring(8));
+		$("#originImageIndex").val(originIndex.substring(1));
 		$("#originImage").show();
 		$("#itemId").val($(this).find("input").val());		
 		$("#sampleImage").attr("required", false);
