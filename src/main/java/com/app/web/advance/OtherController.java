@@ -12,46 +12,69 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/other/")
 public class OtherController {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Value("${backup.command}")
-	private String cmd;
-	
+
 	@Value("${backup.path}")
 	private String path;
-	
+
 	@ResponseBody
 	@RequestMapping(value = "backup")
 	public String backupData() {
-		
-		String realCMD = cmd + "  > " + path + "backup" + System.currentTimeMillis() + ".sql";
-		
-		logger.info("start to backup database.command: " + "cmd /k start  \"\"  \"" + realCMD + "\"");
-		
-		// mysqldump -hhostname -uusername -ppassword databasename > backupfile.sql
-		
+		return doBackUp();
+	}
+
+	private String doBackUp() {
+		String realCMD = "cmd /k start " + path + " "
+				+ System.currentTimeMillis();
+		logger.info("start to backup database.command: " + realCMD);
+
+		int exitValue = -1;
+
 		try {
-			Runtime.getRuntime().exec("cmd /k start  \"\"  \"" + realCMD + "\"");
+			Process p = Runtime.getRuntime().exec(realCMD);
+			p.waitFor();
+
+			exitValue = p.exitValue(); // 接收执行完毕的返回值
+
+			p.destroy(); // 销毁子进程
+			p = null;
 		} catch (IOException e) {
 			logger.info("backup 异常" + e.getMessage());
 			return "exception";
+		} catch (InterruptedException e) {
+			logger.info("backup 异常" + e.getMessage());
+			return "exception";
 		}
-		
+
+		if (exitValue == 0) {
+			logger.info("备份执行完成.");
+		} else {
+			logger.error("备份执行失败.");
+			return "failed";
+		}
+
 		return "ok";
-		
 	}
-	
-//	public static void main(String[] args) throws IOException {
-//		
-//		//经过测试，ok
-//		String cmd = "cmd /k start  \"\"  \"" + "D:\\Program Files\\MySQL\\MySQL Server 5.5\\bin\\mysqldump.exe -hlocalhost -uroot -proot1234 test > E:\\backupfile.sql" + "\"";
-//		
-//		System.out.println(cmd);
-//		
-//		Runtime.getRuntime().exec(cmd);
-//		
+
+	/**
+	 * spring boot 定时任务
+	 */
+//	@Scheduled(cron = "0 1-2 * * * ? ")
+//	public void scheduledBackup() {
+//		logger.info("自动调度备份");
+//		doBackUp();
 //	}
 
+	// public static void main(String[] args) throws IOException {
+	//
+	// // 经过测试，ok
+	// String cmd = "cmd /c start E:\\workspace\\IBoss\\backup.bat "
+	// + System.currentTimeMillis();
+	// System.out.println(cmd);
+	//
+	// Runtime.getRuntime().exec(cmd);
+	//
+	// }
 
 }

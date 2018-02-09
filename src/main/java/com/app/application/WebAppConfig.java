@@ -38,13 +38,12 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     	registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/report/**");
     	registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/other/**");
 	}
+    
+//    @Scheduled(cron = "0 1 20 1 * ? ")
+//	public void scheduledBackup() {
+//		System.out.println("test");
+//		
+//	}
 
     
-    /**
-     * spring boot 定时任务
-     */
-//    @Scheduled(cron="0 0 22 * * ?")
-//    public void reportCurrentTime() {
-//    	crawler.getBlogList(1);
-//    }
 }

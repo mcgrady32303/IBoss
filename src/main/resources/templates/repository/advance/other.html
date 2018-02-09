@@ -41,8 +41,7 @@
 			<!-- center content -->
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-				<p>敬請期待……</p>
-				<a href="/other/backup">备份数据</a>
+				<button id="backupData" class="btn btn-default">备份数据</button>
 
 			</div>
 		</div>
@@ -55,6 +54,23 @@
 					'active');
 			$('.navbar-collapse li').removeClass("active").eq(1).prop('class',
 					'active');
+			
+			$("#backupData").on("click", function(){
+				$.ajax({
+					url : "/other/backup",
+					type : "get",
+					success : function(data) {
+						if(data == "ok") {
+							toastr.success('备份成功');
+						} else {
+							toastr.success('备份出错');
+						}
+					},
+					error : function() {
+						toastr.error('备份出现异常');
+					}
+				});				
+			});
 		});
 
 	</script>
