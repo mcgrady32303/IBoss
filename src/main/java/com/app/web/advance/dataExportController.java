@@ -88,8 +88,8 @@ public class dataExportController {
 			logger.info("isLast: " + isLast);
 
 			// 每一行数据
-			index++;// 第0行已经是表头了,从1开始
 			for (OrderHeadEntity ohe : headList) {
+				index++;// 第0行已经是表头了,从1开始
 				genOneRowOfSheet(index, headers, sheet, ohe);
 			}
 
@@ -130,8 +130,8 @@ public class dataExportController {
 			logger.info("isLast: " + isLast);
 
 			// 每一行数据
-			index++;// 第0行已经是表头了,从1开始
 			for (OrderHeadEntity ohe : headList) {
+				index++;// 第0行已经是表头了,从1开始
 				genOneRowOfSheet(index, headers, sheet, ohe);
 			}
 
@@ -170,8 +170,8 @@ public class dataExportController {
 			logger.info("isLast: " + isLast);
 
 			// 每一行数据
-			index++;// 第0行已经是表头了,从1开始
 			for (OrderHeadEntity ohe : headList) {
+				index++;// 第0行已经是表头了,从1开始
 				genOneRowOfSheet(index, headers, sheet, ohe);
 			}
 
@@ -211,8 +211,8 @@ public class dataExportController {
 			logger.info("isLast: " + isLast);
 
 			// 每一行数据
-			index++;// 第0行已经是表头了,从1开始
 			for (OrderHeadEntity ohe : headList) {
+				index++;// 第0行已经是表头了,从1开始
 				genOneRowOfSheet(index, headers, sheet, ohe);
 			}
 
