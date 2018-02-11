@@ -10,6 +10,8 @@ function initRepos() {
 	});
 }
 
+
+
 function ajax_submit() {
 
 	var formData = new FormData($("#goodInfo")[0]);
@@ -42,8 +44,16 @@ function ajax_submit() {
 	return false; // ajax提交后，form不再自动提交
 }
 
+
 $(function() {
 	initRepos();
+	
+	//点击图片放大查看
+	$("#reposTable img").bind("click", function(){
+		alert("click image");
+		$("#targetImg").attr("src", $(this).attr("src"));
+		$('.image-modal-lg').modal("show");
+	});
 	
 	$("[data-toggle='tooltip']").tooltip();
 
