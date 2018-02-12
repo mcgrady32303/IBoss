@@ -1,0 +1,25 @@
+1.安装jdk mysql chrome
+2.修改backup.dat中mysql路径（用户名、密码） 配置backup.bat路径  与  备份脚本存放路径
+3.配置图片存放路径
+4.初始化登录用户
+5.修改start.bat中的路径，启动时自动执行(将start.bat放在“启动”目录下即可)
+6.启动项中，删除java update提示
+
+
+/* luting:luting1234 */
+INSERT INTO `user` ( 
+  `create_by_id`,
+  `create_date`,
+  `status`,
+  `update_by_id`,
+  `update_date`,
+  `email`,
+  `name`,
+  `password`,
+  `sex`,
+  `tel`
+) 
+VALUES
+  (
+    1,'2016-03-01 00:00:00',1,1,'2016-03-01 00:00:00','luting@test.com','luting','6a3441381d89af3bcbde3013510af633',1,'13888888888'
+  ) ;
