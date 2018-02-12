@@ -1,6 +1,6 @@
 toastr.options.positionClass = 'toast-top-center';// 提示框位置
 
-//绘制一年内每月销量趋势图
+// 绘制一年内每月销量趋势图
 function drawYearlyTrendChart() {
 	var title = {
 		text : '今年每月销量趋势图'
@@ -9,8 +9,8 @@ function drawYearlyTrendChart() {
 		text : '浏阳富茂无纺厂'
 	};
 	var xAxis = {
-		categories : [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月',
-				'九月', '十月', '十一月', '十二月' ]
+		categories : [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月',
+				'十月', '十一月', '十二月' ]
 	};
 	var yAxis = {
 		title : {
@@ -34,12 +34,10 @@ function drawYearlyTrendChart() {
 		borderWidth : 0
 	};
 
-	var series = [
-	{
+	var series = [ {
 		name : '总销量',
 		data : []
-	}
-	];
+	} ];
 
 	var json = {};
 
@@ -50,28 +48,25 @@ function drawYearlyTrendChart() {
 	json.tooltip = tooltip;
 	json.legend = legend;
 	json.series = series;
-	
+
 	var queryYear = $("#year").val();
-	
-	if($("#year").val()=="") {
+
+	if ($("#year").val() == "") {
 		var today = new Date();
 		var year = today.getFullYear();
 		queryYear = year;
 		toastr.info("没有选择年份，默认为" + queryYear);
 	}
-	
-	$.getJSON("/report/saleVolume/" + queryYear, function(data) {
-//		alert(data);
-//		alert(JSON.stringify(data));
+
+	$.getJSON("/report/saleVolume/" + queryYear + "?" + new Date(), function(data) {
 		series[0].data = data;
 		json.series = series;
 		$('#container1').highcharts(json);
-		
 	});
+
 }
 
-
-//绘制一年内欠款客戶前十
+// 绘制一年内欠款客戶前十
 function drawDebtTop10() {
 	var title = {
 		text : '今年欠款排行榜TOP10'
@@ -104,12 +99,10 @@ function drawDebtTop10() {
 		borderWidth : 0
 	};
 
-	var series = [
-	{
+	var series = [ {
 		name : '未付金额',
 		data : []
-	}		
-	];
+	} ];
 
 	var json = {};
 
@@ -120,31 +113,30 @@ function drawDebtTop10() {
 	json.tooltip = tooltip;
 	json.legend = legend;
 	json.series = series;
-	
+
 	var queryYear = $("#year").val();
-	
-	if($("#year").val()=="") {
+
+	if ($("#year").val() == "") {
 		var today = new Date();
 		var year = today.getFullYear();
 		queryYear = year;
 		toastr.info("没有选择年份，默认为" + queryYear);
 	}
-		
-	$.getJSON("/report/debtTop10/"+ queryYear, function(data) {
+
+	$.getJSON("/report/debtTop10/" + queryYear, function(data) {
 		xAxis.categories = data.nameList;
 		series[0].data = data.debtList;
 		json.series = series;
 		$('#containerDebt').highcharts(json);
-			
+
 	});
 }
 
 $(function() {
 
-	$("#queryBtn").on("click", function(){
+	$("#queryBtn").on("click", function() {
 		drawYearlyTrendChart();
 		drawDebtTop10();
 	});
-	
 
 });

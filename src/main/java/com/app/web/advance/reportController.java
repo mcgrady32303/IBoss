@@ -49,6 +49,9 @@ public class reportController {
 	@ResponseBody
 	@RequestMapping(value = "saleVolume/{year}", method = RequestMethod.GET)
 	public String getSaleVolume(@PathVariable String year) {
+
+		logger.info(year + "year sale data: "
+				+ getSaleVolumeByYear(year));
 		return getSaleVolumeByYear(year);
 	}
 
@@ -86,7 +89,7 @@ public class reportController {
 		Top10DebtDTO top10 = new Top10DebtDTO();
 		int i = 0;
 		for (Map.Entry<Long, Double> mapping : list) {
-			System.out.println(mapping.getKey() + ":" + mapping.getValue());
+			logger.info(mapping.getKey() + ":" + mapping.getValue());
 			String name = getCustomerName(mapping.getKey());
 			top10.addCustomerId(mapping.getKey());
 			top10.addDebt(mapping.getValue());
@@ -96,13 +99,13 @@ public class reportController {
 				break;
 		}
 
-		System.out.println(JSON.toJSONString(top10));
+		logger.info(JSON.toJSONString(top10));
 		return JSON.toJSONString(top10);
 	}
 
 	private String getCustomerName(Long key) {
 		CustomerEntity ce = customerService.findOne(key);
-		return ce !=null ? ce.getName() : "没名字";
+		return ce != null ? ce.getName() : "没名字";
 	}
 
 	private boolean listAllHasDebtOrderPageable(List<OrderHeadEntity> headList,
@@ -126,12 +129,16 @@ public class reportController {
 		generateHeadAndEnd(year);
 		for (int i = 0; i < 12; i++) {
 			Double monthToltal = 0.0;
+
+			logger.info("start:" + head.get(i) + ", end: " + end.get(i));
+
 			List<OrderHeadEntity> orderList = listAllOrderByDateRange(
-					head.get(0), end.get(i));
+					head.get(i), end.get(i));
 			for (OrderHeadEntity ohe : orderList) {
 				monthToltal += ohe.getTotalPay();
 			}
 			saleVolume.add(i, monthToltal);
+			logger.info("第" + (i + 1) + "月的销量: " + monthToltal);
 		}
 		return JSON.toJSONString(saleVolume);
 	}
@@ -175,8 +182,8 @@ public class reportController {
 		head.clear();
 		end.clear();
 		for (int i = 1; i <= 12; i++) {
-			head.add(year + "-" + (i > 9 ? "" : "-0") + i + "-01");
-			end.add(year + "-" + (i > 9 ? "" : "-0") + i + "31");
+			head.add(year + "-" + (i > 9 ? "" : "0") + i + "-01");
+			end.add(year + "-" + (i > 9 ? "" : "0") + i + "-31");
 		}
 
 	}
@@ -189,5 +196,7 @@ public class reportController {
 			return me2.getValue().compareTo(me1.getValue());
 		}
 	}
+
+
 
 }
