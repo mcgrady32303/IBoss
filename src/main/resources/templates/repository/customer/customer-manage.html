@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Project Management</title>
+<title>仓库管理</title>
 
 <!-- CSS件 -->
 <link rel="stylesheet" href="/css/bootstrap.min.css" />
@@ -172,6 +172,26 @@
 		</div>
 	</div>
 	<!-- end of detail modal -->
+
+	<!-- =====图片展示 Model===== -->
+	<div class="modal fade image-modal-lg" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title">图片详情</h4>
+				</div>
+				<div class="modal-body">
+					<img id="targetImg" src="#" width="500" />
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- end of image modal -->
 
 	<!-- ======Template===== -->
 	<script id="customer-tmpl" type="text/x-jquery-tmpl">     	

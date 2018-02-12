@@ -121,4 +121,10 @@ $(function() {
 		});
 		$('.detail-modal-lg').modal("show");
 	});
+	
+	//点击图片放大查看
+	$("#customerTable").on("click", "img", function(){
+		$("#targetImg").attr("src", $(this).attr("src"));
+		$('.image-modal-lg').modal("show");
+	});
 });

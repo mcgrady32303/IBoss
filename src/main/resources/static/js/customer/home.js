@@ -48,13 +48,6 @@ function ajax_submit() {
 $(function() {
 	initRepos();
 	
-	//点击图片放大查看
-	$("#reposTable img").bind("click", function(){
-		alert("click image");
-		$("#targetImg").attr("src", $(this).attr("src"));
-		$('.image-modal-lg').modal("show");
-	});
-	
 	$("[data-toggle='tooltip']").tooltip();
 
 	$("#reposTable").on("click", ".btn-danger", function() {
@@ -114,6 +107,13 @@ $(function() {
 		$("#hiddenItemId").val($(this).find("input").val());
 		$('.itemIncrease-modal-lg').modal("show");
 	});
+	
+	//点击图片放大查看
+	$("#reposTable").on("click", "img", function(){
+		$("#targetImg").attr("src", $(this).attr("src"));
+		$('.image-modal-lg').modal("show");
+	});
+	
 	
 	//確定入庫
 	$("#increaseBtn").on("click", function(){
